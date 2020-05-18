@@ -79,15 +79,43 @@ if (command === "info") {
 
     if (command === "avatar") {
       console.log(message.author.tag + " called command " + command + "!")
+      console.log(`${message.author.displayAvatarURL({ format: "png", dynamic: true })}`)
       if (!message.mentions.users.size) {
-        return message.channel.send(`Your avatar: <${message.author.displayAvatarURL({ format: "png", dynamic: true, preview: true })}>`);
-      }
-    
+        return message.channel.send({embed: {
+          color: avatarblue,
+          author: {
+            name: "",
+            icon_url: ""
+          },
+          title: "Your avatar:",
+          image: {
+            url: `${message.author.displayAvatarURL({ format: "png", dynamic: true })}`,
+          },
+          timestamp: new Date(),
+        }   
+      })
+      } 
+
       const avatarList = message.mentions.users.map(user => {
-        return `${user.username}'s avatar: <${user.displayAvatarURL({ format: "png", dynamic: true })}>`;
+        return `${user.displayAvatarURL({ format: "png", dynamic: true })}`;
+
+      });  
+      avatarList.forEach(element => {
+        message.channel.send({embed: {
+          color: avatarblue,
+          author: {
+            name: "",
+            icon_url: ""
+          },
+          title: "",
+          image: {
+            url: `${element }`,
+          },
+          timestamp: "",
+        }   
+      })
       });
-    
-      message.channel.send(avatarList);
+
     }
 
 //==================================================================================================
@@ -152,7 +180,7 @@ if (usage >= 100) {
           icon_url: ""
         },
         title: "Server resources",
-        url: "https://guttespinat.no",
+        url: "",
         fields: [{
             name: "**CPU Usage:**",
             value: usage.toFixed(2) + "%"
@@ -184,7 +212,7 @@ if (usage >= 100) {
           icon_url: ""
         },
         title: "Commands",
-        url: "https://guttespinat.no",
+        url: "",
         thumbnail: {
           url: 'https://cdn.discordapp.com/attachments/694507739292106843/711564085124268143/1231-01.jpg',
         },
@@ -224,7 +252,6 @@ if (usage >= 100) {
         }
         body = JSON.parse(body);
         var status = '*Minecraft server is currently offline*';
-        console.log(status)
         statusColor = red;
           if(body.online) {
               status = 'Minecraft server is **online**  -  ';
@@ -244,7 +271,7 @@ if (usage >= 100) {
               icon_url: ""
             },
             title: "Minecraft Server Status",
-            url: "https://guttespinat.no",
+            url: "",
             fields: [{
                 name: "**Server:**",
                 value: config.mcIP + ":" + config.mcPort
