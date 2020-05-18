@@ -10,7 +10,8 @@ client.login(config.token);
 
 client.on("ready", () => {
   console.log("Ready...");
-  client.user.setActivity(`Monitoring Systems... Type ${prefix}help!`);
+  console.log(`Logged in as ${client.user.tag}!`);
+  //client.user.setActivity(`type ${prefix}help`);
 })
 
 async function currentloadData() {
@@ -31,7 +32,8 @@ client.on('message', async message => {
 	var red = 15158332                                            // Assigns color red
 	var orange = 15105570                                         // Assigns color orange
 	var yellow = 15844367                                         // Assigns color yellow 
-	var green = 6729778                                           // Assigns color green
+  var green = 6729778                                           // Assigns color green
+  var avatarblue = "#6094c6"
 
   const usage = await currentloadData().catch(console.log)
 
@@ -40,16 +42,43 @@ client.on('message', async message => {
 //==================================================================================================
 
     if (command === "ping") {
-      console.log(message.author.username + " called command " + command + "!")
+      console.log(message.author.tag + " called command " + command + "!")
       message.channel.send("Pong!")
     }
+
+//==================================================================================================
+//||   Command info
+//==================================================================================================
+
+if (command === "info") {
+  console.log(message.author.tag + " called command " + command + "!")
+    message.channel.send({embed: {
+      color: avatarblue,
+      author: {
+        name: "Some info about me!",
+        icon_url: ""
+      },
+      description: `Hello! I am Metrix! \n Version: A0.6 \n My owner and developer is Clomby#1466        \n \n For my command list, use \n ${prefix}help`,
+      thumbnail: {
+        url: 'https://cdn.discordapp.com/attachments/694507739292106843/711564085124268143/1231-01.jpg',
+      },
+      title: "",
+      url: " ",
+      timestamp: new Date(),
+      footer: {
+        icon_url: message.author.displayAvatarURL(),
+        text:  message.author.tag
+    }
+  }
+});
+}
 
 //==================================================================================================
 //||   Command Avatar
 //==================================================================================================
 
     if (command === "avatar") {
-      console.log(message.author.username + " called command " + command + "!")
+      console.log(message.author.tag + " called command " + command + "!")
       if (!message.mentions.users.size) {
         return message.channel.send(`Your avatar: <${message.author.displayAvatarURL({ format: "png", dynamic: true, preview: true })}>`);
       }
@@ -72,23 +101,24 @@ client.on('message', async message => {
     const jsonString = JSON.stringify(changePrefix)
 
     if (command === "prefix") {
-      console.log(message.author.username + " called command " + command + "!")
+      console.log(message.author.tag + " called command " + command + "!")
       if (!args.length) {
         return message.channel.send(`Please enter a prefix, ${message.author}!`);
       }
+      
     else if (args[0].length > 1) {
-      return message.channel.send(`Please provide prefix of length 1, ${message.author}!`);
+      return message.channel.send(`Please provide a valid prefix of length 1, ${message.author}!`);
       }
     
     fs.writeFile('./prefix.json', jsonString, err => {
       if (err) {
-          console.log('Error writing to file', err)
+          console.log('Error writing to file!', err)
       } else {
-          console.log('Successfully updated prefix')
+          console.log('Successfully updated prefix!')
       }
     })
 
-    message.channel.send("Success! The prefix has been updated to `" + args[0] + "` " + `${message.author}`)
+    message.channel.send("Success! The prefix has been changed to " + args[0] + " " + `${message.author}`)
     }
 
 //==================================================================================================
@@ -100,11 +130,11 @@ client.on('message', async message => {
 if (usage >= 100) {
   usageColor = red;
 } else if (usage >= 50) {
-  usageColor = orange;
-  } else if (usage >= 25){
-  usageColor = yellow;
+    usageColor = orange;
+  } else if (usage >= 25) {
+      usageColor = yellow;
     } else {
-    usageColor = green;
+        usageColor = green;
 }    
 
   var mem = process.memoryUsage().heapUsed / 1024 / 1024        // Gets current memory usage
@@ -112,7 +142,7 @@ if (usage >= 100) {
 	var totalmem = process.memoryUsage().heapTotal / 1024 / 1024
 
 	if (command === "usage") {
-    console.log(message.author.username + " called command usage!")
+    console.log(message.author.tag + " called command " + command + "!")
     console.log("CPU usage was " + usage.toFixed(2) + "%")
     console.log("RAM usage was " + mem.toFixed(2) + " GB / " + totalmem.toFixed(2) + " GB")
     message.channel.send({embed: {
@@ -135,7 +165,7 @@ if (usage >= 100) {
         timestamp: new Date(),
         footer: {
           icon_url: message.author.displayAvatarURL(),
-          text:  message.author.username
+          text:  message.author.tag
         }
        }
     })
@@ -146,14 +176,18 @@ if (usage >= 100) {
 //==================================================================================================
 
   if (command === "help") {
+    console.log(message.author.tag + " called command " + command + "!")
     message.channel.send({embed: {
-        color: "#72bcd4",
+        color: avatarblue,
         author: {
           name: "",
           icon_url: ""
         },
         title: "Commands",
         url: "https://guttespinat.no",
+        thumbnail: {
+          url: 'https://cdn.discordapp.com/attachments/694507739292106843/711564085124268143/1231-01.jpg',
+        },
         fields: [{
             name: "**Available commands:**",
             value: prefix + "serverinfo \n" + prefix + "usage \n" + prefix + "help \n" + prefix + "avatar \n" + prefix + "prefix \n",
@@ -162,7 +196,7 @@ if (usage >= 100) {
         timestamp: new Date(),
         footer: {
           icon_url: message.author.displayAvatarURL(),
-          text:  message.author.username
+          text:  message.author.tag
         }
       }   
     })
@@ -172,56 +206,62 @@ if (usage >= 100) {
 //||   Command Serverinfo
 //==================================================================================================
 
-
-
   if (command === "serverinfo") {
-  console.log(message.author.username + " called command serverinfo!")
+    console.log(message.author.tag + " called command " + command + "!")
   var statusColor = 0
   const user = message.mentions.users.first() || message.author;
 
+ // if (!args.length) {
+//    return message.channel.send(`Please enter a Minecraft server IP address and port, ${message.author}!`);
+//    }
+
       var url = 'http://mcapi.us/server/status?ip=' + config.mcIP + '&port=' + config.mcPort;
+      //var url = 'http://mcapi.us/server/status?ip=' + args[0] + '&port=' + args[1];
       request(url, function(err, response, body) {
-          if(err) {
-              console.log(err);
-              return message.reply('Error getting Minecraft server status...');
-          }
-          body = JSON.parse(body);
-          var status = '*Minecraft server is currently offline*';
-    statusColor = red;
+        if(err) {
+            console.log(err);
+            return message.reply('Error getting Minecraft server status...');
+        }
+        body = JSON.parse(body);
+        var status = '*Minecraft server is currently offline*';
+        console.log(status)
+        statusColor = red;
           if(body.online) {
               status = 'Minecraft server is **online**  -  ';
-      statusColor = green;
+              statusColor = green;
               if(body.players.now) {
                   status += '**' + body.players.now + '** people are playing!';
+                  console.log(status)
               } else {
                   status += 'Nobody is playing!';
-        console.log("Nobody is playing")
+                  console.log(status)
               }
           }
-          message.channel.send({embed: {
-              color: statusColor,
-              author: {
-                name: "",
-                icon_url: ""
+        message.channel.send({embed: {
+            color: statusColor,
+            author: {
+              name: "",
+              icon_url: ""
+            },
+            title: "Minecraft Server Status",
+            url: "https://guttespinat.no",
+            fields: [{
+                name: "**Server:**",
+                value: config.mcIP + ":" + config.mcPort
+                //value: args[0] + ":" + args[1]
               },
-              title: "Minecraft Server Status",
-              url: "https://guttespinat.no",
-              fields: [{
-                  name: "**Server:**",
-                  value: config.mcIP + ":" + config.mcPort
-                },
-                {
-                  name: "**Status:**",
-                  value: status
-                },
-              ],
-              timestamp: new Date(),
-              footer: {
-                icon_url: message.author.displayAvatarURL(),
-                text:  message.author.username
-            }
+              {
+                name: "**Status:**",
+                value: status
+              },
+            ],
+            timestamp: new Date(),
+            footer: {
+              icon_url: message.author.displayAvatarURL(),
+              text:  message.author.tag
           }
-        });
+        }
       });
-    }
-  });
+    });
+  }
+});
