@@ -1,0 +1,30 @@
+const { prefix } = require('../prefix.json');
+var avatarblue = "6329542"
+client.on('message', async message => {
+    const help = () => {
+        message.channel.send({embed: {
+            color: avatarblue,
+            author: {
+              name: "",
+              icon_url: ""
+            },
+            title: "Commands",
+            url: "",
+            thumbnail: {
+              url: 'https://cdn.discordapp.com/attachments/694507739292106843/711564085124268143/1231-01.jpg',
+            },
+            fields: [{
+                name: "**Available commands:**",
+                value: prefix + "serverinfo \n" + prefix + "usage \n" + prefix + "help \n" + prefix + "avatar \n" + prefix + "prefix \n" + prefix + "poll \n",
+              },
+            ],
+            timestamp: new Date(),
+            footer: {
+              icon_url: message.author.displayAvatarURL,
+              text:  message.author.tag
+            }
+          }   
+        })
+      };
+    exports.help = help;
+    })

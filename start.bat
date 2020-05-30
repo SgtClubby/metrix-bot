@@ -1,2 +1,2 @@
 @echo off
-nodemon metrix.js
+nodemon main.js
