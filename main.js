@@ -43,12 +43,12 @@ client.on('message', async message => {
         var myquery = { guild: `${message.guild.id}` };
         dbo.collection("prefixes").findOne(myquery, function(err, res) {
           if (err) throw err;
-          commandprefix = res.prefix
+          global.commandprefix = res.prefix
           db.close();
         });
       });
     } else {
-      commandprefix = "m!"
+      global.commandprefix = "m!"
       }
       setTimeout(async function() {
   if (!message.content.startsWith(commandprefix) || message.author.bot) return;

@@ -15,7 +15,7 @@ client.on('message', async message => {
             },
             fields: [{
                 name: "**Available commands:**",
-                value: prefix + "serverinfo \n" + prefix + "usage \n" + prefix + "help \n" + prefix + "avatar \n" + prefix + "prefix \n" + prefix + "poll \n",
+                value: commandprefix + "serverinfo \n" + commandprefix + "usage \n" + commandprefix + "help \n" + commandprefix + "avatar \n" + commandprefix + "prefix \n" + commandprefix + "poll \n",
               },
             ],
             timestamp: new Date(),
