@@ -6,7 +6,7 @@ client.on('message', async message => {
             color: avatarblue,
             author: {
               name: "",
-              icon_url: ""
+              icon_url: "2"
             },
             title: "Commands",
             url: "",
