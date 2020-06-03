@@ -1,4 +1,3 @@
-const { prefix } = require('../prefix.json');
 var avatarblue = "6329542"
 client.on('message', async message => {
     const help = () => {
@@ -6,7 +5,7 @@ client.on('message', async message => {
             color: avatarblue,
             author: {
               name: "",
-              icon_url: "2"
+              icon_url: ""
             },
             title: "Commands",
             url: "",

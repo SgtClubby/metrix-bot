@@ -4,7 +4,7 @@ const fs = require('fs')
 const config = require('./config.json');
 const commands = require('./requirements')
 var mongo = require('mongodb');
-var commandprefix = "m!"
+global.commandprefix = "m!"
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017";
 client.login(config.token);
@@ -120,7 +120,7 @@ client.on('message', async message => {
   if (command === "usage") {
     pcusage.pcusage();
   }
-  
+
   if (command === "test01") {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
