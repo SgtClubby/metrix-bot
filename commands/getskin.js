@@ -28,12 +28,8 @@ request(getskin, function(err, response, body) {
     var data = `${body.properties[0].value}`
     var buff = new Buffer(data, 'base64');
     var text = buff.toString('ascii');
-    console.log(text);
-
     skins = JSON.parse(text)
     skins.skinurl = skins.textures.SKIN.url
-    
-    console.log(skins.skinurl)
       message.channel.send({embed: {
         color: 6329542,
         author: {
