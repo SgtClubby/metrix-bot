@@ -8,7 +8,7 @@ Features:
   Monitors CPU and RAM usage on the Server or computer that runs the bot
   Post random meme from Reddit
   Fully configurable!
- 
+  
 Requirements:
   discord.js
   MongoDB (Requires both Module and a Database)
