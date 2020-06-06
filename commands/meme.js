@@ -2,7 +2,7 @@ randomPuppy = require("random-puppy")
 
 client.on('message', async message => {
     const meme = () => {
-        let reddit = [
+        var reddit = [
             "meme",
             "animemes",
             "MemesOfAnime",
@@ -19,7 +19,7 @@ client.on('message', async message => {
             "AdviceAnimals"
         ]
         
-        let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
+        var subreddit = reddit[Math.floor(Math.random() * reddit.length)];
         
         message.channel.startTyping();
         
