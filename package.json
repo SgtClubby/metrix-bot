@@ -1,6 +1,6 @@
 {
   "name": "metrix",
-  "version": "4.20.0a",
+  "version": "4.20.2a",
   "scripts": {
     "start": "node main.js"
   },

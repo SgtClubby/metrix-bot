@@ -86,6 +86,7 @@ client.on('message', async message => {
       global.commandprefix = "m!"
       }
       setTimeout(async function() {
+        
   if (!message.content.startsWith(commandprefix) || message.author.bot) return
   args = message.content.slice(commandprefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
