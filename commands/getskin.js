@@ -35,7 +35,12 @@ request(getskin, function(err, response, body) {
     var buff = new Buffer(data, 'base64');
     var text = buff.toString('ascii');
     skins = JSON.parse(text)
-    skins.skinurl = skins.textures.SKIN.url
+    console.log(text)
+    try {
+      skins.skinurl = skins.textures.SKIN.url
+    } catch (e) {
+      return message.channel.send(`Error getting skin, ${mcname} doesn't have a skin!`)
+    }
       message.channel.send({embed: {
         color: 6329542,
         author: {
@@ -55,13 +60,11 @@ request(getskin, function(err, response, body) {
         footer: {
           icon_url: message.author.displayAvatarURL,
           text:  message.author.tag
+        }
       }
-    }
-  })
-
+    })
   }); 
 }); 
-    };
-    
-    exports.getmcskin = getmcskin;
-    })
+};    
+  exports.getmcskin = getmcskin;
+})
