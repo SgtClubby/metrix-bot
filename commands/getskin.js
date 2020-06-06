@@ -13,7 +13,13 @@ request(getuuid, function(err, response, body) {
       console.log(err);
       return message.reply('Error getting skin data');
   }
+
+  try {
   body = JSON.parse(body);
+  } catch (e) {
+    return message.channel.send(`Please enter a valid username, ${message.author}`)
+  }
+
     const UUID = body.id
     const mcname = body.name
 
