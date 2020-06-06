@@ -13,7 +13,7 @@ client.on('message', async message => {
             },
             fields: [{
                 name: "**Available commands:**",
-                value: commandprefix + "serverinfo \n" + commandprefix + "usage \n" + commandprefix + "help \n" + commandprefix + "avatar \n" + commandprefix + "prefix \n" + commandprefix + "poll \n",
+                value: commandprefix + "skin \n" + commandprefix + "serverinfo \n" + commandprefix + "usage \n" + commandprefix + "help \n" + commandprefix + "avatar \n" + commandprefix + "prefix \n" + commandprefix + "poll \n",
               },
             ],
             timestamp: new Date(),
