@@ -14,8 +14,13 @@ client.on("ready", async ()  => {
   console.log("Ready...");
   console.log(`Logged in as ${client.user.tag}!`);
 
+  MongoClient.connect(url, function (err, db) {
+    var dbo = db.db("metrix");
+    var coll = dbo.collection("prefixes", function (err, collection) { });
+    coll.countDocuments({});
+  });
+  
   await client.guilds.keyArray().forEach(id => {
-
     MongoClient.connect(url, function(err, db) {   
     var dbo = db.db("metrix");
     var coll = dbo.collection("prefixes",function(err, collection){}); 
@@ -33,6 +38,29 @@ client.on("ready", async ()  => {
       });
     });
   })
+})
+
+client.on("guildCreate", async guild => {
+  console.log("Joined a new guild: " + guild.name);
+  await client.guilds.keyArray().forEach(id => {
+
+  MongoClient.connect(url, function(err, db) {   
+  var dbo = db.db("metrix");
+  var coll = dbo.collection("prefixes",function(err, collection){}); 
+  coll.findOne({
+      guild: id
+  }, (err, guild) => {
+      if (err) console.error(err);
+
+      if (!guild) {
+        var initserver = { guild: id, prefix: "m!" };
+        dbo.collection("prefixes").insertOne(initserver, function(err, res) {
+          });
+          db.close();;
+      }
+    });
+  });
+})
 })
 
 client.on('message', async message => {
@@ -119,22 +147,7 @@ client.on('message', async message => {
   //command code is in commands/usage.js
   if (command === "usage") {
     pcusage.pcusage();
-  }
-
-  if (command === "test01") {
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("metrix");
-      var myquery = { guild: `${message.guild.id}` };
-      var newvalues = { $set: { prefix: `${args[0]}` } };
-      dbo.collection("prefixes").findOne(myquery, function(err, res) {
-        if (err) throw err;
-        console.log(res.prefix)
-        console.log(`found 1 document for ${message.guild.id}`);
-        db.close();
-      });
-    });
-  }     
+  }  
 
   if (command === "poll") {
   if (!args) return message.reply("You must have something to vote for!")
