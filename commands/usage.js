@@ -1,4 +1,4 @@
-const si = require('systeminformation');
+const si = require('systeminformation')
 var usageColor = 0
 var red = 15158332                                            // Assigns color red
 var orange = 15105570                                         // Assigns color orange
@@ -7,8 +7,8 @@ var green = 6729778                                           // Assigns color g
 
 async function currentloadData() {
     try {
-      const data = await si.currentLoad();
-      return data.currentload;
+      const data = await si.currentLoad()
+      return data.currentload
     } catch (e) {
       throw e
     }
@@ -19,13 +19,13 @@ client.on('message', async message => {
 const usage = await currentloadData().catch(console.log)
 
 if (usage >= 100) {
-    usageColor = red;
+    usageColor = red
   } else if (usage >= 50) {
-      usageColor = orange;
+      usageColor = orange
     } else if (usage >= 25) {
-        usageColor = yellow;
+        usageColor = yellow
       } else {
-          usageColor = green;
+          usageColor = green
   }    
   
     var mem = process.memoryUsage().heapUsed / 1024 / 1024        // Gets current memory usage
@@ -59,5 +59,5 @@ if (usage >= 100) {
       })
     }
     
-exports.pcusage = pcusage;
+exports.pcusage = pcusage
 })	    	

@@ -19,9 +19,9 @@ client.on('message', async message => {
             "AdviceAnimals"
         ]
         
-        var subreddit = reddit[Math.floor(Math.random() * reddit.length)];
+        var subreddit = reddit[Math.floor(Math.random() * reddit.length)]
         
-        message.channel.startTyping();
+        message.channel.startTyping()
         
         randomPuppy(subreddit).then(async url => {
                 await message.channel.send({
@@ -29,8 +29,8 @@ client.on('message', async message => {
                         attachment: url,
                         name: 'meme.png'
                     }]
-                }).then(() => message.channel.stopTyping());
-        }).catch(err => console.error(err));
-      };
-    exports.meme = meme;  
+                }).then(() => message.channel.stopTyping())
+        }).catch(err => console.error(err))
+      }
+    exports.meme = meme
 })
