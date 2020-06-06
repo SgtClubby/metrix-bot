@@ -6,5 +6,6 @@ serverinfo = require('./commands/serverinfo')
 help = require('./commands/help')
 meme = require('./commands/meme')
 pcusage = require('./commands/usage')
+getmcskin = require('./commands/getskin')
 
 // discord.js@6.13.4

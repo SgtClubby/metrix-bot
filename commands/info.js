@@ -1,9 +1,8 @@
-var avatarblue = "6329542"
 client.on('message', async message => {
   const info = () => {
       {
           message.channel.send({embed: {
-            color: avatarblue,
+            color: 6329542,
             author: {
               name: "Some info about me!",
               icon_url: ""
