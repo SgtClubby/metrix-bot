@@ -1,0 +1,15 @@
+{
+  "name": "metrix",
+  "version": "4.20.0a",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "discord.js": "11.4.2",
+    "systeminformation": "^4.25.1",
+    "fast-average-color": "^6.0.0",
+    "random-puppy": "^1.1.0",
+    "mongodb": "^3.5.7",
+    "request": "^2.88.2"
+  }
+}

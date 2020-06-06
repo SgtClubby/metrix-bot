@@ -1,18 +1,18 @@
 const Discord = require('discord.js');
-global.client = new Discord.Client();
 const fs = require('fs')
 const FastAverageColor = require('fast-average-color');
 const request = require('request');
+global.client = new Discord.Client();
 const config = require('./config.json');
 const commands = require('./requirements')
 var mongo = require('mongodb');
-global.commandprefix = "m!"
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017";
 var red = 15158332
-var green = 6729778 
+var green = 6729778
 var statusColor = 0
-global.args = "" 
+global.commandprefix = "m!"
+global.args = ""
 client.login(config.token);
 
 client.on("ready", async ()  => {
@@ -25,46 +25,49 @@ client.on("ready", async ()  => {
     var coll = dbo.collection("prefixes", function (err, collection) { });
     coll.countDocuments({});
   });
+
   
-  await client.guilds.keyArray().forEach(id => {
-    MongoClient.connect(url, function(err, db) {   
+  client.guilds.keyArray().forEach(id => { // await
+    MongoClient.connect(url, function(err, db) {
     var dbo = db.db("metrix");
     var coll = dbo.collection("prefixes",function(err, collection){}); 
     coll.findOne({
         guild: id
-    }, (err, guild) => {
-        if (err) console.error(err);
+      }, (err, guild) => {
+          if (err) console.error(err);
 
-        if (!guild) {
-          var initserver = { guild: id, prefix: "m!" };
-          dbo.collection("prefixes").insertOne(initserver, function(err, res) {
-            });
-            db.close();;
+          if (!guild) {
+            var initserver = { guild: id, prefix: "m!" };
+            dbo.collection("prefixes").insertOne(initserver, function(err, res) {
+              });
+              db.close();
+          }
         }
-      });
+      );
     });
   })
 })
 
 client.on("guildCreate", async guild => {
   console.log("Joined a new guild: " + guild.name);
-  await client.guilds.keyArray().forEach(id => {
 
-  MongoClient.connect(url, function(err, db) {   
-  var dbo = db.db("metrix");
-  var coll = dbo.collection("prefixes",function(err, collection){}); 
-  coll.findOne({
-      guild: id
-    }, (err, guild) => {
-      if (err) console.error(err);
+  MongoClient.connect(url, function(err, db) {
+    client.guilds.keyArray().forEach(id => { // await
+      var dbo = db.db("metrix");
+      var coll = dbo.collection("prefixes",function(err, collection){}); 
+      coll.findOne({
+          guild: id
+        }, (err, guild) => {
+          if (err) console.error(err);
 
-      if (!guild) {
-        var initserver = { guild: id, prefix: "m!" };
-        dbo.collection("prefixes").insertOne(initserver, function(err, res) {
-          });
-          db.close();;
-      }
-      });
+          if (!guild) {
+            var initserver = { guild: id, prefix: "m!" };
+            dbo.collection("prefixes").insertOne(initserver, function(err, res) {
+              });
+              db.close();
+            }
+          }
+        );
     });
   })
 })
@@ -115,49 +118,27 @@ client.on('message', async message => {
       message.channel.send(`You don't have permission to do that, ${message.author}!`)
     }
   }
-  //command code is in commands/testcommand.js
-  if (command === "testcommand") {
-  	testcommand.testcommand();
+
+  switch (command) {
+    case "testcommand": // command code is in commands/testcommand.js
+      testcommand.testcommand();
+    case "ping": // command code is in commands/ping.js
+      ping.ping();
+    case "avatar": // command code is in commands/avatar.js
+      avatar.avatar();
+    case "info": // command code is in commands/info.js
+      info.info();
+    case "help": // command code is in commands/help.js
+      help.help();
+    case "serverinfo": // command code is in commands/serverinfo.js
+      serverinfo.serverinfo();
+    case "meme": // command code is in commands/meme.js
+      meme.meme();
+    case "usage": // command code is in commands/usage.js
+      pcusage.pcusage();
+    case "skin":
+      getmcskin.getmcskin();
   }
-
-  //command code is in commands/ping.js
-  if (command === "ping") {
-    ping.ping();
-  }
-
-  //command code is in commands/avatar.js
-  if (command === "avatar") {
-    avatar.avatar();
-  }
-
-  //command code is in commands/info.js
-  if (command === "info") {
-    info.info();
-  }
-
-  //command code is in commands/help.js
-  if (command === "help") {
-    help.help();
-  }		
-
-  //command code is in commands/serverinfo.js
-  if (command === "serverinfo") {
-    serverinfo.serverinfo();
-  }
-
-  //command code is in commands/meme.js
-  if (command === "meme") {
-    meme.meme();
-  }
-
-  //command code is in commands/usage.js
-  if (command === "usage") {
-    pcusage.pcusage();
-  }  
-
-  if (command === "skin") {
-    getmcskin.getmcskin();
-  }  
 
   if (command === "poll") {
   if (!args) return message.reply("You must have something to vote for!")
