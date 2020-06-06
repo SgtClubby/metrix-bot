@@ -47,7 +47,6 @@ request(getskin, function(err, response, body) {
       } catch (e) {
         model = "steve" 
         }
-        console.log(text)
       message.channel.send({embed: {
         color: 6329542,
         author: {
