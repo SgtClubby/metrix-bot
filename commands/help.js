@@ -23,6 +23,6 @@ client.on('message', async message => {
             }
           }   
         })
-      };
-    exports.help = help;
+      }
+    exports.help = help
     })

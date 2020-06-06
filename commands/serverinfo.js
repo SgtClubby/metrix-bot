@@ -1,5 +1,5 @@
-const request = require('request');
-const config = require('../config.json');
+const request = require('request')
+const config = require('../config.json')
 var red = 15158332
 var green = 6729778 
 var statusColor = 0
@@ -12,18 +12,18 @@ const user = message.mentions.users.first() || message.author;
   request(url, function(err, response, body) {
     if(err) {
         console.log(err);
-        return message.reply('Error getting Minecraft server status...');
+        return message.reply('Error getting Minecraft server status...')
     }
     body = JSON.parse(body);
-    var status = '*Minecraft server is currently offline*';
+    var status = '*Minecraft server is currently offline*'
     statusColor = red;
       if(body.online) {
-          status = 'Minecraft server is **online**  -  ';
+          status = 'Minecraft server is **online**  -  '
           statusColor = green;
           if(body.players.now) {
-              status += '**' + body.players.now + '** people are playing!';
+              status += '**' + body.players.now + '** people are playing!'
           } else {
-              status += 'Nobody is playing!';
+              status += 'Nobody is playing!'
           }
       }
     message.channel.send({embed: {
@@ -52,5 +52,5 @@ const user = message.mentions.users.first() || message.author;
   });
 });
     };
-    exports.serverinfo = serverinfo;
+    exports.serverinfo = serverinfo
     })

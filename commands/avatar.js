@@ -17,8 +17,8 @@ client.on('message', async message => {
         } 
         
           const avatarList = message.mentions.users.map(user => {
-            return `${user.displayAvatarURL}`;
-          }); 
+            return `${user.displayAvatarURL}`
+          })
           avatarList.forEach(avatarCommand => {
             message.channel.send({embed: {
               color: avatarblue,
@@ -32,7 +32,7 @@ client.on('message', async message => {
                },
               }   
             })
-          });
+          })
         }
-    exports.avatar = avatar;
+    exports.avatar = avatar
     })

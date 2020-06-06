@@ -2,7 +2,7 @@
 Discord Bot that runs on Node.js
 
 Features: 
-  Show Avatar of Users
+  Show Avatar of Users 
   Change Prefix
   Show info about a Minecraft Server
   Monitors CPU and RAM usage on the Server or computer that runs the bot
