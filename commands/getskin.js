@@ -18,7 +18,7 @@ request(getuuid, function(err, response, body) {
   } catch (e) {
     return message.channel.send(`Please enter a valid username, ${message.author}`)
   }
-    const UUID = body.id
+    var UUID = body.id
     const mcname = body.name
 
 var getskin = `https://sessionserver.mojang.com/session/minecraft/profile/${UUID}`
@@ -36,17 +36,18 @@ request(getskin, function(err, response, body) {
     try {
       skins.skinurl = skins.textures.SKIN.url
     } catch (e) {
-      return message.channel.send(`Error getting skin, ${mcname} doesn't have a skin!`)
+      UUID = "8667ba71b85a4004af54457a9734eed7"
+      skins.skinurl = 'https://visage.surgeplay.com/skin/8667ba71b85a4004af54457a9734eed7'
     }
     try {
       skins.slim = skins.textures.SKIN.metadata.model
-      console.log(skins.slim)
       if (skins.slim === "slim") {
-        model = "Alex"
+        model = "alex"
         }
       } catch (e) {
-        model = "Steve" 
+        model = "steve" 
         }
+        console.log(text)
       message.channel.send({embed: {
         color: 6329542,
         author: {

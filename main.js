@@ -120,22 +120,31 @@ client.on('message', async message => {
   switch (command) {
     case "testcommand": // command code is in commands/testcommand.js
       testcommand.testcommand();
+      break
     case "ping": // command code is in commands/ping.js
       ping.ping();
+      break
     case "avatar": // command code is in commands/avatar.js
       avatar.avatar();
+      break
     case "info": // command code is in commands/info.js
       info.info();
+      break
     case "help": // command code is in commands/help.js
       help.help();
+      break
     case "serverinfo": // command code is in commands/serverinfo.js
       serverinfo.serverinfo();
+      break
     case "meme": // command code is in commands/meme.js
       meme.meme();
+      break
     case "usage": // command code is in commands/usage.js
       pcusage.pcusage();
+      break
     case "skin":
       getmcskin.getmcskin();
+      break
   }
 
   if (command === "poll") {
