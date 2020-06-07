@@ -8,9 +8,9 @@ client.on('message', async message => {
               name: "Some info about me!",
               icon_url: ""
             },
-            description: `Hello! I am Metrix! \n Version: ${version} \n My owner and developer is Clomby#1466 \n \n For my command list, use \n ${commandprefix}help`,
+            description: `Hello! I am Metrix! \n Version: ${version} \n My owner and developer is Clomby#1466 \n \n For my command list, use \n *${commandprefix}help*`,
             thumbnail: {
-              url: 'https://cdn.discordapp.com/attachments/694507739292106843/711564085124268143/1231-01.jpg',
+              file: "https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png",
             },
             title: "",
             url: "",

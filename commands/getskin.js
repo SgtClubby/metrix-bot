@@ -7,15 +7,17 @@ client.on('message', async message => {
 if (!args.length) {
   return message.channel.send(`Please enter a username, ${message.author}!`)
 }
-
+message.channel.startTyping()
 request(getuuid, function(err, response, body) {
   if(err) {
       console.log(err)
+      message.channel.stopTyping()
       return message.reply('Error getting skin data')
   }
   try {
   body = JSON.parse(body)
   } catch (e) {
+    message.channel.stopTyping()
     return message.channel.send(`Please enter a valid username, ${message.author}`)
   }
     var UUID = body.id
@@ -26,26 +28,27 @@ var getskin = `https://sessionserver.mojang.com/session/minecraft/profile/${UUID
 request(getskin, function(err, response, body) {
   if(err) {
       console.log(err)
+      message.channel.stopTyping()
       return message.reply('Error getting skin data')
   }
   body = JSON.parse(body)
     var data = `${body.properties[0].value}`
-    var buff = new Buffer(data, 'base64')
+    var buff = new Buffer.from(data, 'base64')
     var text = buff.toString('ascii')
     skins = JSON.parse(text)
     try {
       skins.skinurl = skins.textures.SKIN.url
     } catch (e) {
-      UUID = "8667ba71b85a4004af54457a9734eed7"
+      UUID = '8667ba71b85a4004af54457a9734eed7'
       skins.skinurl = 'https://visage.surgeplay.com/skin/8667ba71b85a4004af54457a9734eed7'
     }
     try {
       skins.slim = skins.textures.SKIN.metadata.model
       if (skins.slim === "slim") {
-        model = "alex"
+        model = "slim"
         }
       } catch (e) {
-        model = "steve" 
+        model = "classic" 
         }
       message.channel.send({embed: {
         color: 6329542,
@@ -68,7 +71,8 @@ request(getskin, function(err, response, body) {
           text:  message.author.tag
         }
       }
-    })
+    }).then (message.channel.stopTyping())
+
   })
 })
 }  
