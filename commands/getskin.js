@@ -50,6 +50,18 @@ request(getskin, function(err, response, body) {
       } catch (e) {
         model = "classic" 
         }
+
+        var fac = new FastAverageColor();
+        fac.getColorAsync(`${skins.textures.SKIN.url}`)
+        .then(function(color) {
+            container.style.backgroundColor = color.rgba;
+            container.style.color = color.isDark ? '#fff' : '#000';
+
+            console.log('Average color', color);
+        })
+        .catch(function(e) {
+            console.log(e);
+        });
       message.channel.send({embed: {
         color: 6329542,
         author: {

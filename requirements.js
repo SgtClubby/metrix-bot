@@ -8,4 +8,4 @@ meme = require('./commands/meme')
 pcusage = require('./commands/usage')
 getmcskin = require('./commands/getskin')
 version = require("./package.json").version
-// discord.js@6.13.4
+todo = require("./commands/todo")

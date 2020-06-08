@@ -7,7 +7,7 @@ Discord Bot that runs on Node.js
  *  Show info about a Minecraft Server
  *  Monitors CPU and RAM usage on the Server or computer that runs the bot
  *  Post random meme from Reddit
- *  Post minecraft skins and usernames
+ *  Post minecraft skin of Users
  *  Fully configurable!
   
 ## Requirements:
@@ -16,4 +16,5 @@ Discord Bot that runs on Node.js
  *  random-puppy
  *  systeminformation
  *  request
+
  

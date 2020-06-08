@@ -1,9 +1,8 @@
 client.on('message', async message => {
-    var avatarblue = "6329542"
     const avatar = () => {
         if (!message.mentions.users.size) {
             return message.channel.send({embed: {
-              color: avatarblue,
+              color: 8103630,
               author: {
                 name: "",
                 icon_url: ""
@@ -21,7 +20,7 @@ client.on('message', async message => {
           })
           avatarList.forEach(avatarCommand => {
             message.channel.send({embed: {
-              color: avatarblue,
+              color: 6329542,
               author: {
                 name: "",
                 icon_url: ""

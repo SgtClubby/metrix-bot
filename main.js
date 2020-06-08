@@ -14,21 +14,25 @@ var red = 15158332
 var green = 6729778
 var statusColor = 0
 global.args = "" 
+global.totalserver = ""
 client.login(config.token)
+client.setMaxListeners(100)
 
 client.on("ready", async ()  => {
-  client.user.setActivity("out for you!", { type: "WATCHING"})
+  client.user.setActivity("")
   console.log("Ready...")
   console.log(`Logged in as ${client.user.tag}!`)
 
   MongoClient.connect(url, function (err, db) {
     var dbo = db.db("metrix")
     var coll = dbo.collection("prefixes", function (err, collection) { })
-    coll.countDocuments({})
+    totalserver = coll.countDocuments({})
   })
-  
+
   await client.guilds.keyArray().forEach(id => {
-    MongoClient.connect(url, function(err, db) {   
+    MongoClient.connect(url, function(err, db) {  
+    name = guild.name
+    console.log(name)  
     var dbo = db.db("metrix")
     var coll = dbo.collection("prefixes",function(err, collection){})
     coll.findOne({
@@ -37,7 +41,7 @@ client.on("ready", async ()  => {
         if (err) console.error(err)
 
         if (!guild) {
-          var initserver = { guild: id, prefix: "m!" }
+        var initserver = { guild: id, prefix: "m!", name: name } 
           dbo.collection("prefixes").insertOne(initserver, function(err, res) {
             })
             db.close()
@@ -50,7 +54,8 @@ client.on("ready", async ()  => {
 client.on("guildCreate", async guild => {
   console.log("Joined a new guild: " + guild.name)
   await client.guilds.keyArray().forEach(id => {
-
+  name = guild.name
+  console.log(name)
   MongoClient.connect(url, function(err, db) {   
   var dbo = db.db("metrix")
   var coll = dbo.collection("prefixes",function(err, collection){})
@@ -60,7 +65,7 @@ client.on("guildCreate", async guild => {
       if (err) console.error(err)
 
       if (!guild) {
-        var initserver = { guild: id, prefix: "m!" }
+        var initserver = { guild: id, prefix: "m!", name: name } 
         dbo.collection("prefixes").insertOne(initserver, function(err, res) {
           })
           db.close()
@@ -92,7 +97,7 @@ client.on('message', async message => {
   const command = args.shift().toLowerCase()
 
   if (command === "prefix") {
-    if (message.author.id === '224271118653980692') {
+    if (!message.member.hasPermission('MANAGE_GUILD')) return message.reply(`You don't have permission to do that!`)
     if (!args.length) {
       return message.channel.send(`Please enter a prefix, ${message.author}!`)
     }
@@ -108,43 +113,52 @@ client.on('message', async message => {
         var newvalues = { $set: { prefix: `${args[0]}` } }
         dbo.collection("prefixes").updateOne(myquery, newvalues, function(err, res) {
           if (err) throw err
-          console.log(`1 document for ${message.guild.id} updated`)
           db.close()
         })
       })
       message.channel.send("Success! The prefix has been changed to " + `**${args[0]}**` + ", " + `${message.author}`)
-    } else {
-      message.channel.send(`You don't have permission to do that, ${message.author}!`)
-    }
+    
   }
 
   switch (command) {
     case "testcommand": // command code is in commands/testcommand.js
       testcommand.testcommand();
+      message.delete()
       break
     case "ping": // command code is in commands/ping.js
       ping.ping();
+      message.delete()
       break
     case "avatar": // command code is in commands/avatar.js
       avatar.avatar();
       break
     case "info": // command code is in commands/info.js
       info.info();
+      message.delete()
       break
     case "help": // command code is in commands/help.js
       help.help();
+      message.delete()
       break
     case "serverinfo": // command code is in commands/serverinfo.js
       serverinfo.serverinfo();
+      message.delete()
       break
     case "meme": // command code is in commands/meme.js
       meme.meme();
       break
     case "usage": // command code is in commands/usage.js
       pcusage.pcusage();
+      message.delete(3000)
       break
     case "skin":
       getmcskin.getmcskin();
+      message.delete()
+      break
+    case "todo":
+      if (!message.guild.id === '715480344949817416') return message.reply("can't do that")
+      todo.todo();
+      message.delete()
       break
   }
 
@@ -153,14 +167,10 @@ client.on('message', async message => {
   if (!message.content.includes("?")) 
   return message.reply("Include a ? in your vote!")
   message.channel.send(`:ballot_box:  ${message.author.username} started a vote! React to my next message to vote on it. :ballot_box: `)
-  const pollTopic = await message.channel.send(message.content.slice(2))
+  const pollTopic = await message.channel.send(message.content.slice(commandprefix + 4))
   await pollTopic.react(`✅`)
   await pollTopic.react(`⛔`)
-  // Create a reaction collector
-  const filter = (reaction) => reaction.emoji.name === '✅'
-  const collector = pollTopic.createReactionCollector(filter, { time: 15000 })
-  collector.on('collect', r => console.log(`Collected ${r.emoji.name}`))
-  collector.on('end', collected => console.log(`Collected ${collected.size} items`))
   }
+  
   }, 250)
 })
