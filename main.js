@@ -1,4 +1,3 @@
-
 const Discord = require('discord.js')
 global.client = new Discord.Client()
 const fs = require('fs')
@@ -18,36 +17,14 @@ global.totalserver = ""
 client.login(config.token)
 client.setMaxListeners(100)
 
-client.on("ready", async ()  => {
+client.on("ready", async guild => {
   client.user.setActivity("")
   console.log("Ready...")
   console.log(`Logged in as ${client.user.tag}!`)
-
   MongoClient.connect(url, function (err, db) {
     var dbo = db.db("metrix")
     var coll = dbo.collection("prefixes", function (err, collection) { })
     totalserver = coll.countDocuments({})
-  })
-
-  await client.guilds.keyArray().forEach(id => {
-    MongoClient.connect(url, function(err, db) {  
-    name = guild.name
-    console.log(name)  
-    var dbo = db.db("metrix")
-    var coll = dbo.collection("prefixes",function(err, collection){})
-    coll.findOne({
-        guild: id
-    }, (err, guild) => {
-        if (err) console.error(err)
-
-        if (!guild) {
-        var initserver = { guild: id, prefix: "m!", name: name } 
-          dbo.collection("prefixes").insertOne(initserver, function(err, res) {
-            })
-            db.close()
-        }
-      })
-    })
   })
 })
 
