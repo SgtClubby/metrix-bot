@@ -31,8 +31,6 @@ client.on("ready", async () => {
 client.on("guildCreate", async guild => {
   console.log("Joined a new guild: " + guild.name)
   await client.guilds.keyArray().forEach(id => {
-  name = guild.name
-  console.log(name)
   MongoClient.connect(url, function(err, db) {   
   var dbo = db.db("metrix")
   var coll = dbo.collection("prefixes",function(err, collection){})
@@ -42,7 +40,7 @@ client.on("guildCreate", async guild => {
       if (err) console.error(err)
 
       if (!guild) {
-        var initserver = { guild: id, prefix: "m!", name: name } 
+        var initserver = { guild: id, prefix: "m!" } 
         dbo.collection("prefixes").insertOne(initserver, function(err, res) {
           })
           db.close()
@@ -100,7 +98,7 @@ client.on('message', async message => {
   switch (command) {
     case "testcommand": // command code is in commands/testcommand.js
       testcommand.testcommand();
-      message.delete()
+      message.delete(1000)
       break
     case "ping": // command code is in commands/ping.js
       ping.ping();
@@ -111,32 +109,31 @@ client.on('message', async message => {
       break
     case "info": // command code is in commands/info.js
       info.info();
-      message.delete()
+      message.delete(2000)
       break
     case "help": // command code is in commands/help.js
       help.help();
-      message.delete()
+      message.delete(2000)
       break
     case "serverinfo": // command code is in commands/serverinfo.js
       serverinfo.serverinfo();
-      message.delete()
+      message.delete(2000)
       break
     case "meme": // command code is in commands/meme.js
-      meme.meme();
+      meme.meme(2000);
       break
     case "usage": // command code is in commands/usage.js
       pcusage.pcusage();
       message.delete(3000)
       break
-    case "skin":
+    case "skin": // command code is in commands/getskin.js
       getmcskin.getmcskin();
-      message.delete()
+      message.delete(2000)
       break
-    case "todo":
-      if (!message.guild.id === '715480344949817416') return message.reply("can't do that")
+    case "todo": // command code is in commands/todo.js
+      if (message.author.id != "224271118653980692") return
       todo.todo();
-      message.delete()
-      break
+      message.delete(2000)
   }
 
   if (command === "poll") {

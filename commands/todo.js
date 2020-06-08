@@ -1,6 +1,9 @@
 client.on('message', async message => {
     const todo = async() => {
-        if (!args) return message.reply("you must type something todo!")
+        if (!args[0]) {
+        return message.channel.send(`You must have something todo, ${message.author}!`)
+        }
+        else {
             message.channel.send({embed: {
                 color: 6329542,
                 title: "New todo item!",
@@ -19,6 +22,8 @@ client.on('message', async message => {
                 }
               }   
             })
+           }
+          
          }
     
     exports.todo = todo
