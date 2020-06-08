@@ -17,7 +17,7 @@ global.totalserver = ""
 client.login(config.token)
 client.setMaxListeners(100)
 
-client.on("ready", async guild => {
+client.on("ready", async () => {
   client.user.setActivity("")
   console.log("Ready...")
   console.log(`Logged in as ${client.user.tag}!`)
@@ -25,7 +25,7 @@ client.on("ready", async guild => {
     var dbo = db.db("metrix")
     var coll = dbo.collection("prefixes", function (err, collection) { })
     totalserver = coll.countDocuments({})
-  })
+  }) 
 })
 
 client.on("guildCreate", async guild => {
