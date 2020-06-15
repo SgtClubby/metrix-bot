@@ -181,7 +181,7 @@ client.on('message', async message => {
               }
             }   
           })
-          break
+            break
           case "poll":
             message.channel.send({embed: {
               color: 6329542,
@@ -202,6 +202,26 @@ client.on('message', async message => {
             }   
           })
             break
+            case "suggestion":
+              message.channel.send({embed: {
+                color: 6329542,
+                title: "Poll",
+                thumbnail: {
+                  url: 'https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png',
+                },
+                fields: [{
+                    name: "**Usage:**",
+                    value: `Use ${commandprefix}suggestion to make a suggestion for features or changes. \n\n **Example:** ${commandprefix}suggestion tweak the avatar command`,
+                  },
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: message.author.displayAvatarURL,
+                  text:  message.author.tag
+                }
+              }   
+            })
+              break
         case "commands":
           message.channel.send({embed: {
             color: 6329542,

@@ -1,17 +1,13 @@
 const Discord = require('discord.js')
+require('events').EventEmitter.defaultMaxListeners = 50;
 global.client = new Discord.Client()
 const fs = require('fs')
-const FastAverageColor = require('fast-average-color')
 const request = require('request')
 const config = require('./config.json')
 const commands = require('./requirements')
-var mongo = require('mongodb')
 global.commandprefix = "m!"
 var MongoClient = require('mongodb').MongoClient
 var url = "mongodb://localhost:27017"
-var red = 15158332
-var green = 6729778
-var statusColor = 0
 global.args = "" 
 global.totalserver = ""
 client.login(config.token)
@@ -96,44 +92,54 @@ client.on('message', async message => {
   }
 
   switch (command) {
-    case "testcommand": // command code is in commands/testcommand.js
-      testcommand.testcommand();
-      message.delete(1000)
-      break
     case "ping": // command code is in commands/ping.js
       ping.ping();
-      message.delete()
+      message.delete(3000)
       break
     case "avatar": // command code is in commands/avatar.js
       avatar.avatar();
       break
     case "info": // command code is in commands/info.js
       info.info();
-      message.delete(2000)
+      message.delete()
       break
     case "help": // command code is in commands/help.js
       help.help();
-      message.delete(2000)
+      message.delete()
       break
     case "serverinfo": // command code is in commands/serverinfo.js
       serverinfo.serverinfo();
-      message.delete(2000)
+      message.delete()
       break
     case "meme": // command code is in commands/meme.js
-      meme.meme(2000);
+      meme.meme();
       break
     case "usage": // command code is in commands/usage.js
       pcusage.pcusage();
-      message.delete(3000)
       break
-    case "skin": // command code is in commands/getskin.js
+    case "skin":
       getmcskin.getmcskin();
-      message.delete(2000)
+      message.delete()
       break
-    case "todo": // command code is in commands/todo.js
-      if (message.author.id != "224271118653980692") return
+    case "todo":
+      if (message.author.id != "224271118653980692") return 
       todo.todo();
-      message.delete(2000)
+      message.delete()
+      break
+    case "suggestion":
+        suggestion.suggestion();
+        message.delete()
+        break
+    case "ban":
+      if (!message.member.hasPermission('BAN_MEMBERS')) return message.reply(`You don't have permission to do that!`)
+      ban.ban();
+        break
+    case "speedtest":
+      if (message.author.id != "224271118653980692") return message.reply(`nah fam`)
+      speedtest_test.speedtest_test();
+        break
+    default:
+      message.channel.send(`Unknown command. Use ${commandprefix}help for command list.`)
   }
 
   if (command === "poll") {

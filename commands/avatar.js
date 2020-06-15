@@ -7,7 +7,7 @@ client.on('message', async message => {
                 name: "",
                 icon_url: ""
               },
-              title: "",
+                title: "",
               image: {
                 url: `${message.author.displayAvatarURL}`,
               },
