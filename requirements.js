@@ -13,3 +13,5 @@ version = require("./package.json").version
 todo = require("./commands/todo")
 suggestion = require("./commands/suggestion")
 speedtest_test = require("./commands/speedtest")
+echo = require("./commands/echo")
+getosuuser = require("./commands/osu")

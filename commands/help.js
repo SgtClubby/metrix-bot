@@ -1,5 +1,5 @@
 client.on('message', async message => {
-  const defaulthelpstring = `${commandprefix}skin\n${commandprefix}serverinfo \n${commandprefix}usage \n${commandprefix}help \n${commandprefix}avatar \n${commandprefix}prefix \n${commandprefix}poll\n\n Type **${commandprefix}help command** to see a detailed explanation on how to use the command.`
+  const defaulthelpstring = `${commandprefix}skin\n${commandprefix}serverinfo \n${commandprefix}usage \n${commandprefix}help \n${commandprefix}avatar \n${commandprefix}suggestion \n${commandprefix}osu \n${commandprefix}meme \n${commandprefix}prefix \n${commandprefix}poll\n\n Type **${commandprefix}help command** to see a detailed explanation on how to use the command.`
     const help = () => {
       switch (args[0]) {
         case "testcommand":
@@ -205,7 +205,7 @@ client.on('message', async message => {
             case "suggestion":
               message.channel.send({embed: {
                 color: 6329542,
-                title: "Poll",
+                title: "Suggestion",
                 thumbnail: {
                   url: 'https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png',
                 },
@@ -222,6 +222,26 @@ client.on('message', async message => {
               }   
             })
               break
+          case "osu":
+            message.channel.send({embed: {
+              color: 6329542,
+              title: "**Usage:**",
+              thumbnail: {
+                url: 'https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png',
+              },
+              fields: [{
+                  name: "**Osu:**",
+                  value: `Use ${commandprefix}osu to get Osu! user information. \n\n **Example:** ${commandprefix}osu WhiteCat`,
+                },
+              ],
+              timestamp: new Date(),
+              footer: {
+                icon_url: message.author.displayAvatarURL,
+                text:  message.author.tag
+              }
+            }   
+          })
+            break
         case "commands":
           message.channel.send({embed: {
             color: 6329542,
