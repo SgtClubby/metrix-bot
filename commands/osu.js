@@ -14,12 +14,8 @@ client.on('message', async message => {
             console.log(user[0])
 
             if (user === "undefined") return message.channel.send("Please enter a valid Osu! username!")
-
-            var user_image = `http://s.ppy.sh/a/${user[0].user_id}`
-            console.log(user_image)
-
             //variables
-            userid = user[0].user_id
+            const userid = user[0].user_id
             const username = user[0].username
             const rank = user[0].pp_rank
             const pp = user[0].pp_raw
@@ -29,6 +25,7 @@ client.on('message', async message => {
             const country = user[0].country
             const countryrank = user[0].pp_country_rank
 
+            var user_image = `http://s.ppy.sh/a/${userid}`
             //send the embed
             message.channel.send({embed: {
                 color: 6329542,
