@@ -13,9 +13,9 @@ client.on('message', async message => {
                     return message.reply('Error getting Osu! profile')
                 }
                 user = JSON.parse(body)
-                console.log(user)
-                if (user === "undefined") return message.channel.send("Please enter a valid Osu! username!")
+                if (user === undefined ) return message.channel.send("Please enter a valid Osu! username!")
                 if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
+                if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has nothing to show`)
                 //variables
                 const userid = user[0].user_id
                 const username = user[0].username
@@ -37,30 +37,31 @@ client.on('message', async message => {
                     icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
                     url: `https://osu.ppy.sh/users/${userid}`,
                     },
+                    description: `▸ **Official Rank:** ${rank} (${country}#${countryrank}) \n▸ **Total PP:** ${parseFloat(pp).toFixed()} \n▸ **Level:** ${parseFloat(lvl).toFixed()} (Playcount: ${playcount}) \n▸ **Hit Accuracy:** ${parseFloat(accuracy).toFixed(2)}%`,
                     thumbnail: {
                     url: userimage,
                     },
-                    fields: [{
-                        name: "**Official Rank:**",
-                        value: `${rank} (${country}#${countryrank})`,
+                    // fields: [{
+                    //     name: "▸ **Official Rank:**",
+                    //     value: `${rank} (${country}#${countryrank})`,
 
-                    },
-                    {
-                        name: "**Total PP:**",
-                        value: parseFloat(pp).toFixed(),
-                        inline: true
-                    },
-                    {
-                        name: "**Level:**",
-                        value: `${parseFloat(lvl).toFixed()} (plays: ${playcount})`,
-                        inline: true
-                    },
-                    {
-                        name: "**Hit Accuracy:**",
-                        value: parseFloat(accuracy).toFixed(2) + "%",
-                        inline: true
-                    },
-                    ],
+                    // },
+                    // {
+                    //     name: "**Total PP:**",
+                    //     value: parseFloat(pp).toFixed(),
+                    //     inline: true
+                    // },
+                    // {
+                    //     name: "**Level:**",
+                    //     value: `${parseFloat(lvl).toFixed()} (plays: ${playcount})`,
+                    //     inline: true
+                    // },
+                    // {
+                    //     name: "**Hit Accuracy:**",
+                    //     value: parseFloat(accuracy).toFixed(2) + "%",
+                    //     inline: true
+                    // },
+                    // ],
                     timestamp: new Date(),
                     footer: {
                     icon_url: message.author.displayAvatarURL,
@@ -87,9 +88,10 @@ client.on('message', async message => {
                         return message.reply('Error getting Osu! profile')
                     }
                     user = JSON.parse(body)
-
+                    
                     if (user === "undefined") return message.channel.send("Please enter a valid Osu! username!")
                     if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
+                    if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has no plays!`)
 
                     //variables
                     const userid = user[0].user_id
@@ -112,6 +114,7 @@ client.on('message', async message => {
                         const map_artist = first.artist
                         const version = first.version
                         const stars = first.difficultyrating
+
                         // consts for player
                         const top_pp = beatmapscores.pp
                         const max_combo = beatmapscores.maxcombo
@@ -122,7 +125,7 @@ client.on('message', async message => {
                         const fcdate = beatmapscores.date
                         const mod_dtb = beatmapscores.enabled_mods
 
-
+                        // mod variables
                         const Mods = {
                                 None           : 0,
                                 NoFail         : 1,
@@ -139,22 +142,6 @@ client.on('message', async message => {
                                 Perfect        : 16384,     // Only set along with SuddenDeath. i.e: PF only gives 1641
                                     }
 
-                        // console.log(
-                        //   //  `No Mod = ${isNM = Boolean(mod_dtb & Mods.None)}\n`,
-                        //     `Hidden = ${isHD = Boolean(mod_dtb & Mods.Hidden)}\n`,
-                        //     `Hard Rock = ${isHR = Boolean(mod_dtb & Mods.HardRock)}\n`,
-                        //     `NoFail = ${isNF = Boolean(mod_dtb & Mods.NoFail)}\n`,
-                        //     `Nightcore = ${isNC = Boolean(mod_dtb & Mods.Nightcore)}\n`,
-                        //     `Flashlight = ${isFL = Boolean(mod_dtb & Mods.Flashlight)}\n`,
-                        //     `SpunOut = ${isSO = Boolean(mod_dtb & Mods.SpunOut)}\n`,
-                        //     `Perfect = ${isPF = Boolean(mod_dtb & Mods.Perfect)}\n`,
-                        //     `Easy = ${isEZ = Boolean(mod_dtb & Mods.Easy)}\n`,
-                        //     `Half Time = ${isHF = Boolean(mod_dtb & Mods.HalfTime)}\n`,
-                        //     `Sudden Death = ${isSD = Boolean(mod_dtb & Mods.SuddenDeath)}\n`,
-                        //     `Double Time = ${isDT = Boolean(mod_dtb & Mods.DoubleTime)}\n`
-                        // )
-
-                      //  isNM = Boolean(mod_dtb & Mods.None)
                         isHD = Boolean(mod_dtb & Mods.Hidden)
                         isHR = Boolean(mod_dtb & Mods.HardRock)
                         isNF = Boolean(mod_dtb & Mods.NoFail)
@@ -169,39 +156,39 @@ client.on('message', async message => {
 
                         beatmapmods = "Mods: "
                         if (isHD == true) {
-                            beatmapmods += "HD "
+                            beatmapmods += "**HD** "
                         } 
                         if (isHR == true) {
-                            beatmapmods += "HR "
+                            beatmapmods += "**HR** "
                         } 
                         if (isNF == true) {
-                            beatmapmods += "NF "
+                            beatmapmods += "**NF** "
                         } 
                         if (isNC == true) {
-                            beatmapmods += "NC "
+                            beatmapmods += "**NC** "
                             isDT = false
                         } 
                         if (isSO == true) {
-                            beatmapmods += "SO "
+                            beatmapmods += "**SO** "
                         } 
                         if (isEZ == true) {
-                            beatmapmods += "EZ "
+                            beatmapmods += "**EZ** "
                         } 
                         if (isPF == true) {
-                            beatmapmods += "PF "
+                            beatmapmods += "**PF** "
                             isSD = false
                         } 
                         if (isHF == true) {
-                            beatmapmods += "HF "
+                            beatmapmods += "**HF** "
                         } 
                         if (isSD == true) {
-                            beatmapmods += "SD "
+                            beatmapmods += "**SD** "
                         } 
                         if (isDT == true) {
-                            beatmapmods += "DT "
+                            beatmapmods += "**DT** "
                         } 
                         if (isFL == true) {
-                            beatmapmods += "FL "
+                            beatmapmods += "**FL** "
                         } 
                         if (isHD == false  && isHR == false  && isNF == false  && isNC == false  && isSO == false  && isEZ == false  && isPF == false  && isHF == false  && isSD == false && isDT == false && isFL == false) {
                             beatmapmods = ""
@@ -210,78 +197,76 @@ client.on('message', async message => {
                         map_cover = `https://assets.ppy.sh/beatmaps/${first.beatmapset_id}/covers/cover.jpg`
                         userimage = `http://s.ppy.sh/a/${userid}`
 
-                        // console.log(beatmapscores)
-                        // console.log(best_beatmap)
-
-                    message.channel.send({embed: {
-                        color: 6329542,
-                        author: {
-                            name: `Osu! Standard top play for ${username}`,
-                            icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
-                            url: `https://osu.ppy.sh/users/${userid}`,
+                        message.channel.send({embed: {
+                            color: 6329542,
+                            author: {
+                                name: `Osu! Standard top play for ${username}`,
+                                icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
+                                url: `https://osu.ppy.sh/users/${userid}`,
+                                },
+                            thumbnail: {
+                                url: userimage,
+                                },
+                            fields: [
+                            //      {
+                            //     name: "**Date and Time:**",
+                            //     value: fcdate,
+                            //     inline: false
+                            // },
+                            {
+                                name: "**Beatmap:**",
+                                value: `${map_title} by ${map_artist} \n ${parseFloat(stars).toFixed(2)}* [${version}] \n ${beatmapmods}` ,
+                                inline: false
                             },
-                        thumbnail: {
-                            url: userimage,
+                            {
+                                name: "**PP:**",
+                                value: parseFloat(top_pp).toFixed(1),
+                                inline: true
                             },
-                        fields: [{
-                            name: "**Date and Time:**",
-                            value: fcdate,
-                            inline: false
-                        },
-                        {
-                            name: "**Beatmap:**",
-                            value: `${map_title} by ${map_artist} \n ${parseFloat(stars).toFixed(2)}* [${version}] \n ${beatmapmods}` ,
-                            inline: false
-                        },
-                        {
-                            name: "**PP:**",
-                            value: parseFloat(top_pp).toFixed(1),
-                            inline: true
-                        },
-                        {
-                            name: "**Max Combo:**",
-                            value: max_combo,
-                            inline: true
-                        },
-                        {
-                            name: "**300:**",
-                            value: count300,
-                            inline: true
-                        },
-                        {
-                            name: "**100:**",
-                            value: count100,
-                            inline: true
-                        },
-                        {
-                            name: "**50:**",
-                            value: count50,
-                            inline: true
-                        },
-                        {
-                            name: "**Miss:**",
-                            value: countmiss,
-                            inline: true
-                        },
-                        ],
-                        timestamp: new Date(),
-                        image: {
-                            url: map_cover,
+                            {
+                                name: "**Max Combo:**",
+                                value: max_combo,
+                                inline: true
                             },
-                        footer: {
-                            icon_url: message.author.displayAvatarURL,
-                            text:  message.author.tag
+                            // {
+                            //     name: "**300:**",
+                            //     value: count300,
+                            //     inline: true
+                            // },
+                            // {
+                            //     name: "**100:**",
+                            //     value: count100,
+                            //     inline: true
+                            // },
+                            // {
+                            //     name: "**50:**",
+                            //     value: count50,
+                            //     inline: true
+                            // },
+                            // {
+                            //     name: "**Miss:**",
+                            //     value: countmiss,
+                            //     inline: true
+                            // },
+                            ],
+                            timestamp: new Date(),
+                            image: {
+                                url: map_cover,
+                                },
+                            footer: {
+                                icon_url: message.author.displayAvatarURL,
+                                text:  message.author.tag
+                                }
                             }
-                        }
-                        })
+                            })
 
+                        })
                     })
                 })
             })
-        })
             break
         default:
-            message.channel.send(`Usage: ${commandprefix}osu <profile, topplay, recent> <osu username>`)
+            message.channel.send(`Usage: ${commandprefix}osu <profile, topplay> <osu username>`)
             break
         }
 
