@@ -17,6 +17,7 @@ client.on('message', async message => {
                 if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
                 if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has nothing to show`)
                 //variables
+                
                 const userid = user[0].user_id
                 const username = user[0].username
                 const rank = user[0].pp_rank
@@ -73,7 +74,10 @@ client.on('message', async message => {
             break
         case "topplay":
             if (!args[1]) return message.channel.send("Please enter a Osu! username!")
-            const get_score = `https://osu.ppy.sh/api/get_user_best?limit=1&u=${args[1]}&k=${apikey}`
+            if (!args[2] ) args[2] = 1 
+            if (args[2] > 3) return message.channel.send("You cannot view more than top 3 plays")
+            
+            const get_score = `https://osu.ppy.sh/api/get_user_best?limit=${args[2]}&u=${args[1]}&k=${apikey}`
             var get_user = `https://osu.ppy.sh/api/get_user?u=${args[1]}&k=${apikey}`
 
             request(get_score, function(err, response, body) {
@@ -89,14 +93,16 @@ client.on('message', async message => {
                     }
                     user = JSON.parse(body)
                     
-                    if (user === "undefined") return message.channel.send("Please enter a valid Osu! username!")
-                    if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
-                    if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has no plays!`)
+                    if (user === "undefined")       return message.channel.send("Please enter a valid Osu! username!")
+                    if (user.length == 0)           return message.channel.send("Please enter a valid Osu! username!")
+                    if (user[0].pp_raw === null)    return message.channel.send(`User ${user[0].username} has no plays!`)
 
                     //variables
                     const userid = user[0].user_id
                     const username = user[0].username
                     const country = user[0].country
+
+                    if (args[2] > 1) message.channel.send(`${username}'s best plays! (might not be in order)`)
 
                 scores.forEach(beatmapscores => {
                     const get_beatmap = `https://osu.ppy.sh/api/get_beatmaps?b=${beatmapscores.beatmap_id}&k=${apikey}`
@@ -266,7 +272,7 @@ client.on('message', async message => {
             })
             break
         default:
-            message.channel.send(`Usage: ${commandprefix}osu <profile, topplay> <osu username>`)
+            message.channel.send(`Usage: \n${commandprefix}osu profile <osu username> \n${commandprefix}osu topplay <osu username> <amount> `)
             break
         }
 

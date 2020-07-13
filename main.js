@@ -111,22 +111,18 @@ client.on('message', async message => {
   switch (command) {
     case "ping": // command code is in commands/ping.js
       ping.ping();
-      message.delete(3000)
       break
     case "avatar": // command code is in commands/avatar.js
       avatar.avatar();
       break
     case "info": // command code is in commands/info.js
       info.info();
-      message.delete()
       break
     case "help": // command code is in commands/help.js
       help.help();
-      message.delete()
       break
     case "serverinfo": // command code is in commands/serverinfo.js
       serverinfo.serverinfo();
-      message.delete()
       break
     case "meme": // command code is in commands/meme.js
       meme.meme();
@@ -136,7 +132,6 @@ client.on('message', async message => {
       break
     case "skin":
       getmcskin.getmcskin(); // command code is in commands/getskin.js
-      message.delete()
       break
     case "todo":
       if (message.author.id != "224271118653980692") return 
@@ -171,6 +166,7 @@ client.on('message', async message => {
       break
     default:
       message.channel.send(`Unknown command. Use ${commandprefix}help for command list.`) // For all unrecognized commands
+      message.delete(2000)
   }
   }, 250)
 })
