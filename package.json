@@ -8,6 +8,7 @@
     "child_process": "^1.0.2",
     "discord.js": "11.4.2",
     "fast-average-color": "^6.0.0",
+    "ffmpeg": "0.0.4",
     "mongodb": "^3.5.7",
     "random-puppy": "^1.1.0",
     "request": "^2.88.2",

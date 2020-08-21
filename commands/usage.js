@@ -20,14 +20,18 @@ client.on('message', async message => {
 
   if (usage >= 100) {
       usageColor = red
-    } else if (usage >= 50) {
-        usageColor = orange
-      } else if (usage >= 25) {
-          usageColor = yellow
-        } else {
-            usageColor = green
+    } 
+  else if (usage >= 50) {
+      usageColor = orange
+    } 
+  else if (usage >= 25) {
+      usageColor = yellow
+    }
+  else {
+      usageColor = green
     }    
-     
+    
+
     var mem = process.memoryUsage().heapUsed / 1024 / 1024        // Gets current memory usage
   //var totalmem = os.totalmem / 1024 / 1024 / 1024               // Gets total system memory
     var totalmem = process.memoryUsage().heapTotal / 1024 / 1024

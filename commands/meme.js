@@ -4,19 +4,11 @@ client.on('message', async message => {
     const meme = () => {
         var reddit = [
             "meme",
-            "animemes",
-            "MemesOfAnime",
-            "animememes",
-            "AnimeFunny",
             "dankmemes",
             "dankmeme",
             "wholesomememes",
             "MemeEconomy",
-            "techsupportanimals",
-            "meirl",
-            "me_irl",
-            "2meirl4meirl",
-            "AdviceAnimals"
+            "deepfriedmemes"
         ]
         
         var subreddit = reddit[Math.floor(Math.random() * reddit.length)]

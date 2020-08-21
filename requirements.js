@@ -1,5 +1,3 @@
-const { speedtest } = require('./commands/speedtest')
-
 testcommand = require('./commands/testcommand')
 ping = require('./commands/ping')
 avatar = require('./commands/avatar')
@@ -15,3 +13,5 @@ suggestion = require("./commands/suggestion")
 speedtest_test = require("./commands/speedtest")
 echo = require("./commands/echo")
 getosuuser = require("./commands/osu")
+join = require("./commands/join")
+editrole = require("./commands/editrole")

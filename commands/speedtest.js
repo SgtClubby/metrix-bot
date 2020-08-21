@@ -1,7 +1,7 @@
 
 client.on('message', message => {
     const speedtest_test = async () => {
-        msg = await message.channel.send("Please wait...")
+        const msg = await message.channel.send("Please wait...")
         var process = require('child_process');
         var cmd = process.spawn('speedtest',  ['--format=json']);
         cmd.stdout.on('data', function(output){
@@ -24,6 +24,5 @@ client.on('message', message => {
             console.log(err);
         });
     }
-    
     exports.speedtest_test = speedtest_test
-    })
+})
