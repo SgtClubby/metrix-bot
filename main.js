@@ -202,8 +202,10 @@ client.on('message', async message => {
         if (!message.mentions.members.first()) {
           var member = message.author.id
           var picture = message.author.displayAvatarURL
+          var name = message.author.username
         } else {
           member = message.mentions.members.first().id
+          name = message.mentions.members.first().user.username
           const avatarList = message.mentions.users.map(user => {
             return `${user.displayAvatarURL}`
           })
@@ -211,7 +213,7 @@ client.on('message', async message => {
             picture = avatarCommand
           })
         }
-      
+        console.log(message.mentions.members.first())
         setTimeout( function async () {
         MongoClient.connect(url, async function(err, db) {
           if (err) throw err
@@ -222,7 +224,7 @@ client.on('message', async message => {
             if (!res) return
             var curlvl = res.level
             var curexp = res.exp
-            var user = res.name 
+            var user = name
             const nxtLvlexp = 150 * (Math.pow(1.5, curlvl) - 1)  
             const prevLvlexp = 150 * (Math.pow(1.5, curlvl - 1) - 1)
             new_xp1 = rngxp + curexp
