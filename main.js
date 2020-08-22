@@ -189,53 +189,55 @@ client.on('message', async message => {
         MongoClient.connect(url, function(err, db) {
           if (err) throw err
             var dbo = db.db("metrix")
-            dbo.collection("levels").find({}).toArray(function(err, result) {
+            dbo.collection("levels").find({}).toArray(function(err, output) {
           if (err) throw err
             db.close()
-        console.log(result)
+            result = output.sort()
+            console.log(result)
           })
         })
         break
         case "rank": 
+        var member = message.author.id
+        if (!message.mentions.members.first()) {
+          var member = message.author.id
+          var picture = message.author.displayAvatarURL
+        } else {
+          member = message.mentions.members.first().id
+          const avatarList = message.mentions.users.map(user => {
+            return `${user.displayAvatarURL}`
+          })
+          avatarList.forEach(avatarCommand => {
+            picture = avatarCommand
+          })
+        }
+      
         setTimeout( function async () {
         MongoClient.connect(url, async function(err, db) {
           if (err) throw err
             var dbo = db.db("metrix")
-            var myquery = { user_id: `${message.author.id}` }
+            var myquery = { user_id: member }
             dbo.collection("levels").findOne(myquery, async function(err, res) {
           if (err) throw err
             if (!res) return
             var curlvl = res.level
             var curexp = res.exp
-            var user = res.name
-  
-
+            var user = res.name 
             const nxtLvlexp = 150 * (Math.pow(1.5, curlvl) - 1)  
-
             const prevLvlexp = 150 * (Math.pow(1.5, curlvl - 1) - 1)
-
-
             new_xp1 = rngxp + curexp
             rankupxp = nxtLvlexp.toFixed(0) - prevLvlexp.toFixed(0)  
             difference = new_xp1 - prevLvlexp.toFixed(0) 
-
             var count = (difference / rankupxp.toFixed(0) * 100).toFixed(0)
-
-            if (difference > rankupxp) {
-              count = 100
-            }
-
+            if (difference > rankupxp) count = 100
             const bar_len = 30
             const filled_len = (count * bar_len / 100).toFixed(0)
             const bar = '[' + '█'.repeat(filled_len) + '░'.repeat((bar_len - filled_len).toFixed(0)) + ']'
-  
-            
-            // message.channel.send(`Username: ${user}\nXP: ${bar} ${count}%\nCurrent Level: ${curlvl}\n`)
             message.channel.send({embed: {
               color: 6329542,
               title: `${user}'s rank`,
               thumbnail: {
-                url: message.author.displayAvatarURL,
+                url: picture,
               },
               fields: [{
                   name: "**Current Level:**",
@@ -275,7 +277,7 @@ client.on('message', async message => {
         if (err) console.error(err)
         if (!user_id) {
           var newtrackeduser = { name: message.author.username, user_id: message.author.id, level: 1, exp: initialxpAdd } 
-          if (message.author.bot) return
+          if(message.author.bot) return console.log("Bot detected, ignoring");
           dbo.collection("levels").insertOne(newtrackeduser, function(err, res) {
             })
             db.close()
