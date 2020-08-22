@@ -5,12 +5,9 @@ const fs = require('fs')
 const request = require('request')
 const config = require('./config.json')
 const commands = require('./requirements');
-const cliProgress = require('cli-progress');
-const { stdin, stdout } = require('process');
 global.commandprefix = "m!"
 var MongoClient = require('mongodb').MongoClient
 var url = "mongodb://localhost:27017"
-
 
 global.args = "" 
 global.totalserver = ""
@@ -22,7 +19,7 @@ client.on("ready", async () => {
   client.user.setActivity("")
   console.log("Ready...")
   console.log(`Logged in as ${client.user.tag}!`)
-  MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
+  MongoClient.connect(url, function(err, db) {
     var dbo = db.db("metrix")
     var coll = dbo.collection("prefixes", function (err, collection) { })
     totalserver = coll.countDocuments({})
@@ -30,7 +27,7 @@ client.on("ready", async () => {
   await client.guilds.keyArray().forEach(id => {
     MongoClient.connect(url, function(err, db) {   
     var dbo = db.db("metrix")
-    var coll = dbo.collection("prefixes",function(err, collection){})
+    var coll = dbo.collection("prefixes", function(err, collection){})
     coll.findOne({
         guild: id
       }, (err, guild) => {
@@ -69,8 +66,9 @@ client.on("guildCreate", async guild => {
 })
 
 client.on('message', async message => {
+  rngxp = Math.floor(Math.random() * (6 - 2 + 1) + 2)
     if (message.guild != null) {
-      MongoClient.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, db) {
+      MongoClient.connect(url, {useUnifiedTopology: true}, function(err, db) {
         if (err) throw err
           var dbo = db.db("metrix")
           var myquery = { guild: `${message.guild.id}` }
@@ -84,7 +82,7 @@ client.on('message', async message => {
       global.commandprefix = "m!"
     }
       
-    
+    const xpAdd = Math.floor(Math.random() * (18 - 2 + 1) + 2);
       setTimeout(async function () {
         
   if (!message.content.startsWith(commandprefix) || message.author.bot) return
@@ -195,49 +193,78 @@ client.on('message', async message => {
           if (err) throw err
             db.close()
         console.log(result)
-        })
-        })
-      case "rank": 
-      const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-      setTimeout( function async () {
-      MongoClient.connect(url, async function(err, db) {
-        if (err) throw err
-          var dbo = db.db("metrix")
-          var myquery = { user_id: `${message.author.id}` }
-          dbo.collection("levels").findOne(myquery, async function(err, res) {
-        if (err) throw err
-          if (!res) return
-          var curlvl = res.level
-          var curexp = res.exp
-          var user = res.name
-
-          const nxtLvlexp = 150 * (Math.pow(1.5, curlvl) - 1)  
-
-          const Stream = require('stream');
-          const stream = new Stream.Readable()  
-       
-          const b1 = new cliProgress.SingleBar({
-            barCompleteChar: '\u2588',
-            barIncompleteChar: '\u2591',
-            format: '[{bar}]',
-            stream: stream,
-          });
-
-          b1.start(nxtLvlexp, curexp)
-
-          message.channel.send(`Username: ${user}\nXP:` + `\nCurrent Level: ${curlvl}\n`)
-          db.close()
           })
         })
-      }, 500)
         break
+        case "rank": 
+        setTimeout( function async () {
+        MongoClient.connect(url, async function(err, db) {
+          if (err) throw err
+            var dbo = db.db("metrix")
+            var myquery = { user_id: `${message.author.id}` }
+            dbo.collection("levels").findOne(myquery, async function(err, res) {
+          if (err) throw err
+            if (!res) return
+            var curlvl = res.level
+            var curexp = res.exp
+            var user = res.name
+  
+
+            const nxtLvlexp = 150 * (Math.pow(1.5, curlvl) - 1)  
+
+            const prevLvlexp = 150 * (Math.pow(1.5, curlvl - 1) - 1)
+
+
+            new_xp1 = rngxp + curexp
+            rankupxp = nxtLvlexp.toFixed(0) - prevLvlexp.toFixed(0)  
+            difference = new_xp1 - prevLvlexp.toFixed(0) 
+
+            var count = (difference / rankupxp.toFixed(0) * 100).toFixed(0)
+
+            if (difference > rankupxp) {
+              count = 100
+            }
+
+            const bar_len = 30
+            const filled_len = (count * bar_len / 100).toFixed(0)
+            const bar = '[' + '█'.repeat(filled_len) + '░'.repeat((bar_len - filled_len).toFixed(0)) + ']'
+  
+            
+            // message.channel.send(`Username: ${user}\nXP: ${bar} ${count}%\nCurrent Level: ${curlvl}\n`)
+            message.channel.send({embed: {
+              color: 6329542,
+              title: `${user}'s rank`,
+              thumbnail: {
+                url: message.author.displayAvatarURL,
+              },
+              fields: [{
+                  name: "**Current Level:**",
+                  value: `${curlvl}`,
+                },
+                {
+                  name: "**XP:**",
+                  value: `XP needed: ${difference} / ${rankupxp} \n ${bar} ${count}%`,
+                },
+              ],
+              timestamp: new Date(),
+              footer: {
+                icon_url: message.author.displayAvatarURL,
+                text:  message.author.tag
+              }
+            }   
+          })
+            db.close()
+            })
+          })
+        }, 250)
+          break
     default:
       message.channel.send(`Unknown command. Use ${commandprefix}help for command list.`) // For all unrecognized commands
   }
 
   }, 250)
 
-  initialxpAdd = Math.floor(Math.random() * (18 - 2 + 1) + 2);
+  initialxpAdd = rngxp
 
   MongoClient.connect(url, function(err, db) {   
     var dbo = db.db("metrix")
@@ -248,13 +275,13 @@ client.on('message', async message => {
         if (err) console.error(err)
         if (!user_id) {
           var newtrackeduser = { name: message.author.username, user_id: message.author.id, level: 1, exp: initialxpAdd } 
+          if (message.author.bot) return
           dbo.collection("levels").insertOne(newtrackeduser, function(err, res) {
             })
             db.close()
             console.log("Added new user!")
-            
-        }
-        })
+          }
+       })
     })
     MongoClient.connect(url, function(err, db) {
       if (err) throw err
@@ -269,12 +296,9 @@ client.on('message', async message => {
         user = res.name
         userid = res.user_id
         db.close()
-
-        const xpAdd = Math.floor(Math.random() * (18 - 2 + 1) + 2);
         
-        const new_xp = curexp + xpAdd
-
-        const nxtLvlexp = 100 * (Math.pow(1.5, curlvl) - 1);     
+        const new_xp = curexp + rngxp 
+        const nxtLvlexp = 150 * (Math.pow(1.5, curlvl) - 1);     
 
         setTimeout( async function () {
         MongoClient.connect(url, function(err, db) {
@@ -289,7 +313,6 @@ client.on('message', async message => {
         })
          setTimeout( async function () {
         if (new_xp >= nxtLvlexp.toFixed(0)) {
-          console.log("level up?")
           newlvl = curlvl + 1
           MongoClient.connect(url, function(err, db) {
             if (err) throw err
@@ -299,20 +322,33 @@ client.on('message', async message => {
             dbo.collection("levels").updateOne(myquery, newvalues, function(err, res) {
               if (err) throw err
               db.close()
+              message.channel.send({embed: {
+                color: 6329542,
+                title: `You ranked up!`,
+                thumbnail: {
+                  url: message.author.displayAvatarURL,
+                },
+                fields: [{
+                    name: "**Level:**",
+                    value: `${curlvl} -> ${curlvl + 1}`,
+                  },
+                ],
+              }   
+            })
             })
           })
         }
 
-        console.log(
-          `\n`,
-          `Username: ${user}\n`,
-          `User ID: ${userid}\n`,
-          `Generated XP: ${xpAdd}\n`,
-          `Current XP from database: ${curexp}\n`,
-          `Updated XP sent to database: ${new_xp}\n`,
-          `Current Level in database: ${curlvl}\n`,
-          `Next level EXP requirement: ${nxtLvlexp.toFixed(0)}\n`
-        )
+        // console.log(
+        //   `\n`,
+        //   `Username: ${user}\n`,
+        //   `User ID: ${userid}\n`,
+        //   `Generated XP: ${xpAdd}\n`,
+        //   `Current XP from database: ${curexp}\n`,
+        //   `Updated XP sent to database: ${new_xp}\n`,
+        //   `Current Level in database: ${curlvl}\n`,
+        //   `Next level EXP requirement: ${nxtLvlexp.toFixed(0)}\n`
+        // )
         },150)
       },100)
 

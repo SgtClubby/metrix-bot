@@ -1,6 +1,6 @@
 client.on('message', async message => {
   const defaulthelpstring = `${commandprefix}skin\n${commandprefix}serverinfo \n${commandprefix}usage \n${commandprefix}help \n${commandprefix}avatar \n${commandprefix}suggestion \n${commandprefix}osu \n${commandprefix}meme \n${commandprefix}prefix \n${commandprefix}poll\n\n Type **${commandprefix}help command** to see a detailed explanation on how to use the command.`
-    const help = () => {
+    const help = () => {  
       switch (args[0]) {
         case "testcommand":
         message.channel.send({embed: {
@@ -289,9 +289,10 @@ client.on('message', async message => {
               icon_url: message.author.displayAvatarURL,
               text:  message.author.tag
             }
-          }   
+          } 
+         
         }) 
       }
-  }
-    exports.help = help
-    })
+    }
+  exports.help = help
+})
