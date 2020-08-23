@@ -1,5 +1,5 @@
 client.on('message', async message => {
-  const defaulthelpstring = `${commandprefix}skin\n${commandprefix}serverinfo \n${commandprefix}usage \n${commandprefix}help \n${commandprefix}avatar \n${commandprefix}suggestion \n${commandprefix}osu \n${commandprefix}meme \n${commandprefix}prefix \n${commandprefix}poll\n\n Type **${commandprefix}help command** to see a detailed explanation on how to use the command.`
+  const defaulthelpstring = `${commandprefix}rank\n${commandprefix}leaderboard\n${commandprefix}skin\n${commandprefix}serverinfo \n${commandprefix}usage \n${commandprefix}help \n${commandprefix}avatar \n${commandprefix}suggestion \n${commandprefix}osu \n${commandprefix}meme \n${commandprefix}prefix \n${commandprefix}poll\n\n Type **${commandprefix}help command** to see a detailed explanation on how to use the command.`
     const help = () => {  
       switch (args[0]) {
         case "testcommand":
@@ -32,6 +32,44 @@ client.on('message', async message => {
           fields: [{
               name: "**Usage:**",
               value: `Use ${commandprefix}ping to see if bot is alive.`,
+            },
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: message.author.displayAvatarURL,
+            text:  message.author.tag
+          }
+        }   
+      })
+      case "rank":
+        message.channel.send({embed: {
+          color: 6329542,
+          title: "Rank",
+          thumbnail: {
+            url: 'https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png',
+          },
+          fields: [{
+              name: "**Usage:**",
+              value: `Use ${commandprefix}rank to see current XP and Level of yourself or other users.`,
+            },
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: message.author.displayAvatarURL,
+            text:  message.author.tag
+          }
+        }   
+      })
+      case "leaderboard":
+        message.channel.send({embed: {
+          color: 6329542,
+          title: "Leaderboard",
+          thumbnail: {
+            url: 'https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png',
+          },
+          fields: [{
+              name: "**Usage:**",
+              value: `Use ${commandprefix}rank to see a leaderboard of XP and Level of yourself or other users.`,
             },
           ],
           timestamp: new Date(),
