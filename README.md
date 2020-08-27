@@ -1,5 +1,5 @@
 # Metrix
-Discord Bot that runs on Node.js
+Discord Bot that runs on Node.js \n
 Click here to [Invite][metrix-invite] the bot!
 ## Features: 
  *  Show Avatar of Users 
