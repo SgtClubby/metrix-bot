@@ -16,5 +16,7 @@ Discord Bot that runs on Node.js
  *  random-puppy
  *  systeminformation
  *  request
+ *  Some functionally requires the [Metrix API][metrix-api]
 
- 
+ [metrix-api]: https://github.com/ZaxmkE/metrix-api
+ [metrix-website]: https://github.com/ZaxmkE/metrix-website
