@@ -1,6 +1,6 @@
 # Metrix
 Discord Bot that runs on Node.js
-
+Click here to [Invite][metrix-invite] the bot!
 ## Features: 
  *  Show Avatar of Users 
  *  Change Prefix
@@ -19,4 +19,4 @@ Discord Bot that runs on Node.js
  *  Some functionally requires the [Metrix API][metrix-api]
 
  [metrix-api]: https://github.com/ZaxmkE/metrix-api
- [metrix-website]: https://github.com/ZaxmkE/metrix-website
+ [metrix-invite]: https://discord.com/api/oauth2/authorize?client_id=694476852282130455&permissions=8&scope=bot
