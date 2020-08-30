@@ -11,14 +11,12 @@ client.on('message', async message => {
           console.log(e);
         });
         break
-
       case "disconnect":
         var channel = client.channels.get(args[1]);
         if (!channel) return console.log("The channel does not exist!");
         channel.leave()
         console.log("Successfully disconnected.")
         break
-
       case "reconnect":
         if (!args[2] === undefined) args[2] = 15000
         var channel = client.channels.get(args[1]);
@@ -28,7 +26,7 @@ client.on('message', async message => {
         }).catch(e => {
           console.log(e);
         });
-
+        
         setTimeout(async function () {
           var channel = client.channels.get(args[1]);
           if (!channel) return console.log("The channel does not exist!");
