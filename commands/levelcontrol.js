@@ -131,6 +131,7 @@ client.on('message', async message => {
                             })
                         })
                         break
+                        default: message.channel.send(`**Usage**: ${commandprefix}level xp <remove give> <user> <amount>`)
                 }
             }
         }

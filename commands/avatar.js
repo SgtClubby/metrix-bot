@@ -9,23 +9,18 @@ client.on('message', async message => {
               },
                 title: "",
               image: {
-                url: `${message.author.displayAvatarURL}`,
+                url: `${message.author.displayAvatarURL()}`,
               },
             }   
           })
         } 
         
           const avatarList = message.mentions.users.map(user => {
-            return `${user.displayAvatarURL}`
+            return `${user.displayAvatarURL()}`
           })
           avatarList.forEach(avatarCommand => {
             message.channel.send({embed: {
               color: 6329542,
-              author: {
-                name: "",
-                icon_url: ""
-              },
-              title: ``,
               image: {
                 url: `${avatarCommand}`,
                },

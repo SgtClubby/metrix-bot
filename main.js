@@ -218,7 +218,7 @@ client.on('message', async message => {
                         var lines = "-"
                         var user_on_leaderboard = `${lines.repeat(52)}\n`
                         output.forEach(user_rank => {
-                            var user = client.users.get(user_rank.user_id);
+                            var user = client.users.cache.get(user_rank.user_id);
                             rankpos = rankpos + 1
                             name = user.username
                             xp = user_rank.exp
@@ -229,7 +229,11 @@ client.on('message', async message => {
                             embed: {
                                 color: 6329542,
                                 title: `Rank Leaderboard`,
-                                description: `${quotes}apache\n${user_on_leaderboard}${quotes}`,
+                                description: `${quotes}apache\n${user_on_leaderboard}${quotes}\n`,
+                                fields: [{
+                                    name: "**Extended:**",
+                                    value: `Go to https://metrix.pw/leaderboard for more information!`,
+                                  }]
                             }
                         })
                     })
@@ -243,17 +247,17 @@ client.on('message', async message => {
             case "rank":
                 if (message.channel.type === 'dm') {
                     var member = message.author.id
-                    var picture = message.author.displayAvatarURL
+                    var picture = message.author.displayAvatarURL()
                     var name = message.author.username
                 } else if (!message.mentions.members.first()) {
-                    var picture = message.author.displayAvatarURL
+                    var picture = message.author.displayAvatarURL()
                     var name = message.author.username
                     member = message.author.id
                 } else {
                     member = message.mentions.members.first().id
                     name = message.mentions.members.first().user.username
                     const avatarList = message.mentions.users.map(user => {
-                        return `${user.displayAvatarURL}`
+                        return `${user.displayAvatarURL()}`
                     })
                     avatarList.forEach(avatarCommand => {
                         picture = avatarCommand
@@ -302,7 +306,7 @@ client.on('message', async message => {
                                     ],
                                     timestamp: new Date(),
                                     footer: {
-                                        icon_url: message.author.displayAvatarURL,
+                                        icon_url: message.author.displayAvatarURL(),
                                         text: message.author.tag
                                     }
                                 }
@@ -399,7 +403,7 @@ client.on('message', async message => {
                                         color: 6329542,
                                         title: `You ranked up!`,
                                         thumbnail: {
-                                            url: message.author.displayAvatarURL,
+                                            url: message.author.displayAvatarURL(),
                                         },
                                         fields: [{
                                             name: "**Level:**",

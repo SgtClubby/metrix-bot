@@ -17,7 +17,7 @@ client.on('message', async message => {
                 ],
                 timestamp: new Date(),
                 footer: {
-                  icon_url: message.author.displayAvatarURL,
+                  icon_url: message.author.displayAvatarURL(),
                   text:  message.author.tag
                 }
               }   

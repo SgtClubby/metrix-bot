@@ -73,7 +73,7 @@ client.on('message', async message => {
             url: `https://namemc.com/${mcname}`,
             timestamp: new Date(),
             footer: {
-              icon_url: message.author.displayAvatarURL,
+              icon_url: message.author.displayAvatarURL(),
               text: message.author.tag
             }
           }
