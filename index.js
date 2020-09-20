@@ -179,7 +179,7 @@ client.on('message', async message => {
             case "role":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
                 editrole.editrole() // command code is in commands/editrole.js'
-                message.delete(500)
+                message.delete()
                 break
             case "osu":
                 getosuuser.osu()
@@ -239,11 +239,9 @@ client.on('message', async message => {
                     })
                 })
                 break
-
-
-
-
-
+            case "api":
+                api.api()
+                break
             case "rank":
                 if (message.channel.type === 'dm') {
                     var member = message.author.id
