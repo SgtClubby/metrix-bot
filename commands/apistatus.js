@@ -1,30 +1,50 @@
-const request = require("request")
-
+const Discord = require("discord.js")
 const req = require('request')
-
 client.on('message', async message => {
     const api = () => {
         switch (args[0]) {
             case "status":
-                var chat = `http://localhost:3000/api`
-                var api = `http://localhost:4242/api`
+                const chat =      `http://localhost:3000`
+                const api =       `http://localhost:4242/api`
+                const website =   `http://localhost:443/home`
+
                 req(api, function (err, response, body) {
                   if (err) {
-                    console.log(err)
-                    message.channel.stopTyping()
-                    return message.channel.send('Login is offline!')
-                  } if (m)
-                  console.log(body)
-                  status = JSON.parse(body)
-                  message.channel.send(status.message)
-                })
+                    apistatus  = "`Offline!`"
+                  } else if (response) {
+                    apistatus = "`Online!`"
+                  }
+
                 req(chat, function (err, response, body) {
-                    if (err) {
-                      console.log(err)
-                      message.channel.stopTyping()
-                      return message.channel.send('Chat is offline!')
-                    } if (reponse) { return message.channel.send(`Chat is online!`)}
-                  })
+                  if (err) {
+                    chatstatus = "`Offline!`"
+                  } else if (response) {
+                    chatstatus = "`Online!`"
+                  }
+                  
+                req(website, function (err, response, body) {
+                  if (err) {
+                    websitestatus = "`Offline!`"
+                  } else if (response) {
+                    websitestatus = "`Online!`"
+                  }
+                
+                    const statusembed = new Discord.MessageEmbed()
+                    .setColor('#0099ff')
+                    .setTitle('Metrix Network Status')
+                    .setURL('https://metrix.pw/')
+                    .setThumbnail('https://cdn.discordapp.com/attachments/715480344949817419/719324801398997022/logo.png')
+                    .addFields(
+                      { name: 'API:', value: apistatus, inline: true },
+                      { name: 'Chat:', value: chatstatus, inline: true },
+                      { name: 'Website:', value: websitestatus, inline: true }
+                    )
+                    .setTimestamp()
+                    .setFooter(message.author.tag, message.author.avatarURL());
+                    return message.channel.send(statusembed);
+                })
+              })
+            })        
         }
     }
     exports.api = api

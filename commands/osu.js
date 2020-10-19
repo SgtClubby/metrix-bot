@@ -16,8 +16,8 @@ client.on('message', async message => {
           if (user === undefined) return message.channel.send("Please enter a valid Osu! username!")
           if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
           if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has nothing to show`)
+          
           //variables
-
           const userid = user[0].user_id
           const username = user[0].username
           const rank = user[0].pp_rank

@@ -101,7 +101,7 @@ client.on('message', async message => {
 
         if (command === "prefix") {
             if (message.channel.type === 'dm') return message.channel.send("Sorry! Prefix cannot be changed in DMs.")
-            if (!message.member.hasPermission('MANAGE_GUILD') || message.author.id != "224271118653980692") return message.reply(`You don't have permission to do that!`)
+            if (message.author.id != "224271118653980692") return message.reply(`You don't have permission to do that!`)
             if (!args.length) {
                 return message.channel.send(`Please enter a prefix, ${message.author}!`)
             } else if (args[0].length > 2) {
@@ -175,7 +175,6 @@ client.on('message', async message => {
                 echo.echo(); // command code is in commands/echo.js
                 message.delete()
                 break
-
             case "role":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
                 editrole.editrole() // command code is in commands/editrole.js'

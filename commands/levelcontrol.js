@@ -7,15 +7,15 @@ client.on('message', async message => {
         }
         switch (args[0]) {
             case "exp":
-        var l = 0
-        var s = ""
-        if (!args[1]) return message.channel.send("Specify Level!")
-        for (let i = 0; i < args[1]; i++) {
-            l = l + 1
-            e = 150 * (Math.pow(1.5, l - 1) - 1)
-            s = `For level ${l} you need ${n(e.toFixed(0))} XP\n`
-        }
-        message.channel.send(s)
+                var l = 0
+                var s = ""
+                if (!args[1]) return message.channel.send("Specify Level!")
+                for (let i = 0; i < args[1]; i++) {
+                    l = l + 1
+                    e = 150 * (Math.pow(1.5, l - 1) - 1)
+                    s = `For level ${l} you need ${n(e.toFixed(0))} XP\n`
+                }
+                message.channel.send(s)
                 break
             case "xp":
                 switch (args[1]) {
@@ -73,6 +73,7 @@ client.on('message', async message => {
                             })
                         })
                         break
+
                     case "remove":
                         if (!message.mentions.members.first()) return message.channel.send("Please specify a user!")
                         if (!args[3]) return message.channel.send("Please specify an amount!")
