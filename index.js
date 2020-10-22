@@ -6,7 +6,6 @@ const commands = require('./requirements');
 global.commandprefix = "m!"
 const MongoClient = require('mongodb').MongoClient
 var url = "mongodb://localhost:27017"
-
 global.args = ""
 global.totalserver = ""
 
@@ -17,6 +16,7 @@ client.on("ready", async () => {
     client.user.setActivity("")
     console.log("Ready...")
     console.log(`Logged in as ${client.user.tag}!`)
+
     MongoClient.connect(url, function(err, db) {
         var dbo = db.db("metrix")
         var coll = dbo.collection("prefixes", function(err, collection) {})
@@ -155,6 +155,9 @@ client.on('message', async message => {
             case "skin":
                 getmcskin.getmcskin(); // command code is in commands/getskin.js
                 break
+            case "trivia":
+                trivia.trivia(); // command code is in commands/getskin.js
+                break
             case "todo":
                 if (message.author.id != config.owner) return
                 todo.todo(); // command code is in commands/todo.js
@@ -169,6 +172,10 @@ client.on('message', async message => {
                 message.delete()
                 break
             case "prefix":
+                break
+
+            case "membercount":
+                message.reply(`Total members: ${message.guild.memberCount}`);
                 break
             case "echo":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)

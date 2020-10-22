@@ -9,7 +9,7 @@
     "discord.js": "^12.2.0",
     "fast-average-color": "^6.0.0",
     "ffmpeg": "0.0.4",
-    "mongodb": "^3.5.7",
+    "mongodb": "^3.6.2",
     "nodemon": "^2.0.4",
     "random-puppy": "^1.1.0",
     "request": "^2.88.2",
