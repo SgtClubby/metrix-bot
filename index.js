@@ -1,4 +1,5 @@
-const Discord = require('discord.js')
+const Discord = require('discord.js');
+const { promises } = require('fs');
 require('events').EventEmitter.defaultMaxListeners = 50;
 global.client = new Discord.Client()
 const config = require('./config.json')
@@ -173,7 +174,6 @@ client.on('message', async message => {
                 break
             case "prefix":
                 break
-
             case "membercount":
                 message.reply(`Total members: ${message.guild.memberCount}`);
                 break
@@ -185,7 +185,7 @@ client.on('message', async message => {
             case "role":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
                 editrole.editrole() // command code is in commands/editrole.js'
-                message.delete()
+                message.delete({timeout: 500})
                 break
             case "osu":
                 getosuuser.osu()
@@ -199,6 +199,14 @@ client.on('message', async message => {
                 join.joinchannel(); // command code is in commands/channeljoin.js
                 message.delete()
                 break
+
+            case "bulkrename":
+                if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
+                let map = message.guild.members.fetch()
+                var p = Promise.resolve(map)
+                console.log(p)
+                break
+
             case "poll":
                 if (!args) return message.reply("You must have something to vote for!")
                 if (!message.content.includes("?"))

@@ -132,9 +132,15 @@ client.on('message', async message => {
                             })
                         })
                         break
-                        default: message.channel.send(`**Usage**: ${commandprefix}level xp <remove give> <user> <amount>`)
+                        
                 }
+                case "help": 
+                    message.channel.send(`**Usage**: ${commandprefix}level xp <remove give> <user> <amount>`)
+                    break
+                default:
+                    console.log()
             }
+            
         }
     exports.levels = levels
 })
