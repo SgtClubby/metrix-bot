@@ -28,9 +28,9 @@ client.on('message', async message => {
                     answers = [ trivia.correct_answer, 
                                 trivia.incorrect_answers[0], 
                                 ];
-                                emojies = [
-                                    `1️⃣`,
-                                    `2️⃣`,
+                    emojies = [
+                                `1️⃣`,
+                                `2️⃣`,
                                 ]
                     break
                 case "multiple":
@@ -39,11 +39,11 @@ client.on('message', async message => {
                                 trivia.incorrect_answers[1], 
                                 trivia.incorrect_answers[2]
                                 ];
-                                emojies = [
-                                    `1️⃣`,
-                                    `2️⃣`,
-                                    `3️⃣`,
-                                    `4️⃣`
+                    emojies = [
+                                `1️⃣`,
+                                `2️⃣`,
+                                `3️⃣`,
+                                `4️⃣`
                                 ]
                     break
             }
@@ -109,28 +109,27 @@ client.on('message', async message => {
                         trivia.correct_answer)
 
             let correctansweri = 0
-            let lmao = 0 
+            let THECorrectAnswer = 0 
             answers.forEach(correctanswer => {
                 console.log(correctansweri)
                 if (correctanswer === trivia.correct_answer) {
                     console.log("found it",
                                 correctanswer)
-                        lmao = correctansweri
+                        THECorrectAnswer = correctansweri
                     return correctansweri
                 } else {
                     correctansweri = correctansweri + 1
                 }
             })
         
-            console.log(lmao)
+            console.log(THECorrectAnswer)
             const filter = (reaction, user) => {
-                return reaction.emoji.name === emojies[lmao] && user.id === message.author.id;
+                return reaction.emoji.name === emojies[THECorrectAnswer] && user.id === message.author.id;
             };
             
             const collector = triviaEmbed.createReactionCollector(filter, { time: 15000 });
 
-            let reply = `Oh no! You've run out of time! 
-The correct answer was ${trivia.correct_answer}!`
+            let reply = `Oh no! You've run out of time! The correct answer was ${trivia.correct_answer}!`
 
             collector.on('collect', (reaction, user) => {
                 reply = `Thats right! The Correct answer was ${trivia.correct_answer}!`
