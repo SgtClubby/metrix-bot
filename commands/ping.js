@@ -9,13 +9,10 @@ client.on('message', async message => {
                 var api = `http://localhost:4242/api`
                 req(api, function (err, response, body) {
                   if (err) {
-                    console.log(err)
                     message.channel.stopTyping()
                     return message.channel.send('API is down?')
                   }
-                  console.log(body)
                   status = JSON.parse(body)
-                  console.log(status.message)
                   message.channel.send(status.message)
                 })
                 break
