@@ -12,7 +12,7 @@ client.on('message', async message => {
                     message.channel.stopTyping()
                     return message.channel.send('API is down?')
                   }
-                  status = JSON.parse(body)
+                  let status = JSON.parse(body)
                   message.channel.send(status.message)
                 })
                 break

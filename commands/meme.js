@@ -8,7 +8,8 @@ client.on('message', async message => {
             "dankmeme",
             "wholesomememes",
             "MemeEconomy",
-            "deepfriedmemes"
+            "deepfriedmemes",
+            "okbuddyretard"
         ]
         
         var subreddit = reddit[Math.floor(Math.random() * reddit.length)]
@@ -22,7 +23,7 @@ client.on('message', async message => {
                         name: 'meme.png'
                     }]
                 }).then(() => message.channel.stopTyping())
-        }).catch(err => console.error(err))
+        }).catch(err => console.error(err) && message.channel.stopTyping())
       }
     exports.meme = meme
 })

