@@ -1,3 +1,6 @@
+const { eightball } = require('./commands/8ball')
+const { mee6calc } = require('./commands/mee6calc')
+
 testcommand = require('./commands/testcommand')
 ping = require('./commands/ping')
 avatar = require('./commands/avatar')
@@ -18,3 +21,5 @@ editrole = require("./commands/editrole")
 levels = require("./commands/levelcontrol")
 api = require("./commands/apistatus")
 trivia = require("./commands/trivia")
+ball = require("./commands/8ball")
+mee6cal = require("./commands/mee6calc")
