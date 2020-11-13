@@ -203,6 +203,10 @@ client.on('message', async message => {
             case "8ball":
                 ball.ball(); // command code is in commands/channeljoin.js
                 break
+            case "rename":
+                if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
+                rename.rname(); // command code is in commands/channeljoin.js
+                break
             case "mee6calc":
                 mee6cal.mee6calc(); // command code is in commands/channeljoin.js
                 break
@@ -215,7 +219,13 @@ client.on('message', async message => {
                 await pollTopic.react(`✅`)
                 await pollTopic.react(`⛔`)
                 break
-    
+
+            case "ripple":
+                getrippleuser.ripple()
+                break
+            case "yemen":
+                console.log(process.env.JWTTOKEN)
+                break
             case "leaderboard":
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err
@@ -245,7 +255,7 @@ client.on('message', async message => {
                                 description: `${quotes}apache\n${user_on_leaderboard}${quotes}\n`,
                                 fields: [{
                                     name: "**Extended:**",
-                                    value: `Go to https://metrix.pw/leaderboard for more information!`,
+                                    value: `Go to https://metrix.pw/leaderboard/ for more information!`,
                                   }]
                             }
                         })
@@ -285,6 +295,7 @@ client.on('message', async message => {
                         dbo.collection("levels").findOne(myquery, async function(err, res) {
                             if (err) throw err
                             if (!res) return message.channel.send(`${name} has no level data! Please try again later!`)
+                            
                             var curlvl = res.level
                             var curexp = res.exp
                             var user = name
@@ -313,8 +324,7 @@ client.on('message', async message => {
                                         {
                                             name: "**XP:**",
                                             value: `${n(difference)} / ${n(rankupxp)} (Remaining: ${n(remaining_xp)} XP)\n ${bar} ${count}%`,
-                                        },
-                                    ],
+                                        }],
                                     timestamp: new Date(),
                                     footer: {
                                         icon_url: message.author.displayAvatarURL(),

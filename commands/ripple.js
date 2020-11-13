@@ -1,12 +1,11 @@
 const request = require("request")
-const apikey = require("../config.json").osuapi
+const apikey = require("../config.json").rippletoken
 client.on('message', async message => {
-  const osu = () => {
+  const ripple = () => {
     switch (args[0]) {
       case "profile":
         if (!args[1]) return message.channel.send("Please enter a Osu! username!")
-        var get_user = `https://osu.ppy.sh/api/get_user?u=${message.content.slice(commandprefix.length + 12)}&k=${apikey}`
-
+        var get_user = `http://ripple.moe/api/get_user?u=${message.content.slice(commandprefix.length + 15)}`
         request(get_user, function (err, response, body) {
           if (err) {
             console.log(err)
@@ -28,16 +27,16 @@ client.on('message', async message => {
           const country = user[0].country
           const countryrank = user[0].pp_country_rank
 
-          var userimage = `http://s.ppy.sh/a/${userid}`
+          var userimage = `http://a.ripple.moe/${userid}`
 
           //send the embed
           message.channel.send({
             embed: {
               color: 6329542,
               author: {
-                name: `Osu! Standard profile for ${username}`,
+                name: `Ripple! Standard profile for ${username}`,
                 icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
-                url: `https://osu.ppy.sh/users/${userid}`,
+                url: `http://ripple.moe/u/${userid}`,
               },
               description: `▸ **Official Rank:** ${rank} (${country}#${countryrank}) \n
                             ▸ **Total PP:** ${parseFloat(pp).toFixed()} \n
@@ -81,8 +80,8 @@ client.on('message', async message => {
         if (!args[2]) args[2] = 1
         if (args[2] > 3) return message.channel.send("You cannot view more than top 3 plays")
 
-        const get_score = `https://osu.ppy.sh/api/get_user_best?limit=${args[2]}&u=${args[1]}&k=${apikey}`
-        var get_user = `https://osu.ppy.sh/api/get_user?u=${message.content.slice(commandprefix.length + 12)}&k=${apikey}`
+        const get_score = `http://ripple.moe/api/get_user_best?limit=${args[2]}&u=${args[1]}&k=${apikey}`
+        var get_user = `http://ripple.moe/api/get_user?u=${message.content.slice(commandprefix.length + 15)}`
 
         console.log(get_user)
 
@@ -111,7 +110,7 @@ client.on('message', async message => {
             if (args[2] > 1) message.channel.send(`${username}'s best plays! (might not be in order)`)
 
             scores.forEach(beatmapscores => {
-              const get_beatmap = `https://osu.ppy.sh/api/get_beatmaps?b=${beatmapscores.beatmap_id}&k=${apikey}`
+              const get_beatmap = `http://ripple.moe/api/get_beatmaps?b=${beatmapscores.beatmap_id}&k=${apikey}`
 
               request(get_beatmap, function (err, response, body) {
                 if (err) {
@@ -207,7 +206,7 @@ client.on('message', async message => {
                 }
 
                 map_cover = `https://assets.ppy.sh/beatmaps/${first.beatmapset_id}/covers/cover.jpg`
-                userimage = `http://s.ppy.sh/a/${userid}`
+                userimage = `http://a.ripple.moe/${userid}`
 
                 message.channel.send({
                   embed: {
@@ -215,7 +214,7 @@ client.on('message', async message => {
                     author: {
                       name: `Osu! Standard top play for ${username}`,
                       icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
-                      url: `https://osu.ppy.sh/users/${userid}`,
+                      url: `http://ripple.moe/u/${userid}`,
                     },
                     thumbnail: {
                       url: userimage,
@@ -279,10 +278,10 @@ client.on('message', async message => {
         })
         break
       default:
-        message.channel.send(`Usage: \n${commandprefix}osu profile <osu username> \n${commandprefix}osu topplay <osu username> <amount> `)
+        message.channel.send(`Usage: \n${commandprefix}ripple profile <ripple username> \n${commandprefix}ripple topplay <ripple username> <amount> `)
         break
     }
 
   }
-  exports.osu = osu
+  exports.ripple = ripple
 })
