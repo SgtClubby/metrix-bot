@@ -4,16 +4,16 @@ client.on('message', async message => {
   const ripple = () => {
     switch (args[0]) {
       case "profile":
-        if (!args[1]) return message.channel.send("Please enter a Osu! username!")
+        if (!args[1]) return message.channel.send("Please enter a Ripple username!")
         var get_user = `http://ripple.moe/api/get_user?u=${message.content.slice(commandprefix.length + 15)}`
         request(get_user, function (err, response, body) {
           if (err) {
             console.log(err)
-            return message.reply('Error getting Osu! profile')
+            return message.reply('Error getting Ripple profile')
           }
           user = JSON.parse(body)
-          if (user === undefined) return message.channel.send("Please enter a valid Osu! username!")
-          if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
+          if (user === undefined) return message.channel.send("Please enter a valid Ripple username!")
+          if (user.length == 0) return message.channel.send("Please enter a valid Ripple username!")
           if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has nothing to show`)
           
           //variables
@@ -76,7 +76,7 @@ client.on('message', async message => {
         })
         break
       case "topplay":
-        if (!args[1]) return message.channel.send("Please enter a Osu! username!")
+        if (!args[1]) return message.channel.send("Please enter a Ripple username!")
         if (!args[2]) args[2] = 1
         if (args[2] > 3) return message.channel.send("You cannot view more than top 3 plays")
 
@@ -88,18 +88,18 @@ client.on('message', async message => {
         request(get_score, function (err, response, body) {
           if (err) {
             console.log(err)
-            return message.reply('Error getting Osu! profile scores')
+            return message.reply('Error getting Ripple profile scores')
           }
           scores = JSON.parse(body)
           request(get_user, function (err, response, body) {
             if (err) {
               console.log(err)
-              return message.reply('Error getting Osu! profile')
+              return message.reply('Error getting Ripple profile')
             }
             user = JSON.parse(body)
 
-            if (user === "undefined") return message.channel.send("Please enter a valid Osu! username!")
-            if (user.length == 0) return message.channel.send("Please enter a valid Osu! username!")
+            if (user === "undefined") return message.channel.send("Please enter a valid Ripple username!")
+            if (user.length == 0) return message.channel.send("Please enter a valid Ripple username!")
             if (user[0].pp_raw === null) return message.channel.send(`User ${user[0].username} has no plays!`)
 
             //variables
@@ -115,7 +115,7 @@ client.on('message', async message => {
               request(get_beatmap, function (err, response, body) {
                 if (err) {
                   console.log(err)
-                  return message.reply('Error getting Osu! profile scores')
+                  return message.reply('Error getting Ripple profile scores')
                 }
 
                 best_beatmap = JSON.parse(body)
@@ -212,7 +212,7 @@ client.on('message', async message => {
                   embed: {
                     color: 6329542,
                     author: {
-                      name: `Osu! Standard top play for ${username}`,
+                      name:  `Ripple Standard top play for ${username}`,
                       icon_url: `https://osu.ppy.sh/images/flags/${country}.png`,
                       url: `http://ripple.moe/u/${userid}`,
                     },
