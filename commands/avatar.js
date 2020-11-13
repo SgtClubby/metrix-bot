@@ -9,7 +9,7 @@ client.on('message', async message => {
               },
                 title: "",
               image: {
-                url: `${message.author.displayAvatarURL()}`,
+                url: `${message.author.displayAvatarURL()}?size=1024`,
               },
             }   
           })
@@ -22,7 +22,7 @@ client.on('message', async message => {
             message.channel.send({embed: {
               color: 6329542,
               image: {
-                url: `${avatarCommand}`,
+                url: `${avatarCommand}?size=1024`,
                },
               }   
             })
