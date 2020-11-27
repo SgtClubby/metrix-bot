@@ -32,7 +32,7 @@ if (ip[1] === undefined) {
  var url = 'http://mcapi.us/server/status?ip=' + ip[0] + '&port=' + ip[1];
   request(url, function(err, response, body) {
     if(err) {
-        console.log(err);
+        message.channel.send(err);
         return message.reply('Error getting Minecraft server status...')
     }
     body = JSON.parse(body);

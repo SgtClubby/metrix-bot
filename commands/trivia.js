@@ -1,5 +1,6 @@
 request = require("request")
 Discord = require("discord.js")
+const MongoClient = require("mongodb").MongoClient
 const url = "https://opentdb.com/api.php?amount=4"
 client.on('message', async message => {
 
@@ -59,6 +60,17 @@ client.on('message', async message => {
                     break
             }
 
+
+            answers.forEach(answer => {
+                answer = answer.replace(/&quot;/g,'"')
+                answer = answer.replace(/&#039;/g,`'`)
+                answer = answer.replace(/&amp;/g,'&')
+            });
+
+            question = question.replace(/&quot;/g,'"')
+            question = question.replace(/&#039;/g,`'`)
+            question = question.replace(/&amp;/g,'&')
+
             switch (difficulty) {
                 case "easy":
                     dif = easy_rng_xp
@@ -92,9 +104,6 @@ client.on('message', async message => {
                     toOutput += `**${i + 1} )**  ${answersToOutput}\n\n`
                     i = i + 1
               })
-
-              question = question.replace(/&quot;/g,'"')
-              question = question.replace(/&#039;/g,`'`)
               
             const statusembed = new Discord.MessageEmbed()
             .setColor('#0099ff')
@@ -195,15 +204,45 @@ client.on('message', async message => {
             });
 
 
-            
             collector.on('end', collected => {
                 message.reply(reply)
                 collector.stop()
-            });
+                if (reply.includes("Thats right! The Correct answer was")) {
+                    message.channel.send(`You've been granted with ${dif} EXP`)
+                    var url = "mongodb://localhost:27017"
+                    MongoClient.connect(url, function(err, db) {
+                        if (err) throw err
+                        var dbo = db.db("metrix")
+                        var myquery = {
+                            user_id: `${message.author.id}`
+                        }
+                        dbo.collection("levels").findOne(myquery, function(err, res) {
+
+                        if (err) throw err
+                        if (!res) return
+                        if (res.user_id === client.user.id) return
+                        var curexp = res.exp
+
+                        const new_xp = curexp + dif
             
-        })
+                        var myquery = {
+                            user_id: message.author.id
+                        }
+                        var newvalues = {
+                            $set: {
+                                exp: new_xp
+                            }
+                            }
+                        dbo.collection("levels").updateOne(myquery, newvalues, function(err, res) {
+                            if (err) throw err
+                            db.close()
+                        })
+                        })
+                    })
+                }
+            })
+        })    
     })
-    }
-    
-    exports.trivia = trivia
-    })
+}
+exports.trivia = trivia
+})

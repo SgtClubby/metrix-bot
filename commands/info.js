@@ -2,6 +2,7 @@ version = require("../requirements")
 client.on('message', async message => {
 	servers = await totalserver
 	const info = () => {
+		const owner = message.guild.members.cache.get("224271118653980692")
 		{
 			message.channel.send({
 				embed: {
@@ -14,7 +15,7 @@ client.on('message', async message => {
                          	Version ${version}
                          	I'm a part of ${servers} servers
                         	
-                         	My owner and developer is Clomby#1466
+                         	My owner and developer is ${owner.user.username}#${owner.user.discriminator}
                          	
                          	GitHub repositories: 
                           	https://github.com/SgtClubby/metrix-bot  
