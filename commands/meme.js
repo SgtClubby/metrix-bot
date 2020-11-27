@@ -3,10 +3,7 @@ randomPuppy = require("random-puppy")
 client.on('message', async message => {
     const meme = () => {
         var reddit = [
-            "meme",
             "dankmemes",
-            "dankmeme",
-            "wholesomememes",
             "MemeEconomy",
             "deepfriedmemes",
             "okbuddyretard"
@@ -23,7 +20,9 @@ client.on('message', async message => {
                         name: 'meme.png'
                     }]
                 }).then(() => message.channel.stopTyping())
-        }).catch(err => console.error(err) && message.channel.stopTyping())
+        }).catch(err => {message.channel.send(err) 
+                         message.channel.stopTyping()
+                        })
       }
-    exports.meme = meme
+      exports.meme = meme
 })

@@ -9,20 +9,20 @@ client.on('message', async message => {
               },
                 title: "",
               image: {
-                url: `${message.author.displayAvatarURL()}?size=1024`,
+                url: `${message.author.avatarURL()}?size=1024`,
               },
             }   
           })
         } 
         
-          const avatarList = message.mentions.users.map(user => {
+          const mentionedUsers = message.mentions.users.map(user => {
             return `${user.displayAvatarURL()}`
           })
-          avatarList.forEach(avatarCommand => {
+          mentionedUsers.forEach(avatarUrl => {
             message.channel.send({embed: {
               color: 6329542,
               image: {
-                url: `${avatarCommand}?size=1024`,
+                url: `${avatarUrl}?size=1024`,
                },
               }   
             })

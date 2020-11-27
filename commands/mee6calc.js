@@ -1,4 +1,4 @@
-Discord = require("discord.js")
+const Discord = require('discord.js');
 client.on('message', async message => {
     const mee6calc = () => {
         function calculate()

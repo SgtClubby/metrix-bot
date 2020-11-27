@@ -6,7 +6,7 @@ const Discord = require("discord.js");
         switch (args[0]) {
             case "create":
                 if (message.guild.roles.cache.find(role => role.name === '͔')) return console.log("Role already created")
-                message.guild.roles.create()({
+                message.guild.roles.create({
                     name:"͔", 
                     color: "2f3136", 
                     permissions: [
