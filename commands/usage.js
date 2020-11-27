@@ -5,18 +5,28 @@ var orange = 15105570                                         // Assigns color o
 var yellow = 15844367                                         // Assigns color yellow 
 var green = 6729778                                           // Assigns color green
 
-async function currentloadData() {
+async function usageData() {
     try {
-      const data = await si.currentLoad()
-      return data.currentload
+      const cpu = await si.currentLoad()
+      const memory = await si.mem()
+      memoryJson = {
+        usedMem: memory.used,
+        totalMem: memory.total,
+        cpuUage: cpu.currentload
+      }
+      return memoryJson
     } catch (e) {
       throw e
     }
   }
 
+
 client.on('message', async message => {
 
-  const usage = await currentloadData().catch(console.log)
+  const data = await usageData().catch((error) => message.channel.send(error))
+  const used = data.usedMem / 1024 / 1024 / 1024     // Gets current memory usage
+  const total = data.totalMem / 1024 / 1024 / 1024   // Gets total system memory
+  const usage = data.cpuUage
 
   if (usage >= 100) {
       usageColor = red
@@ -30,13 +40,8 @@ client.on('message', async message => {
   else {
       usageColor = green
     }    
-    
-
-    var mem = process.memoryUsage().heapUsed / 1024 / 1024        // Gets current memory usage
-  //var totalmem = os.totalmem / 1024 / 1024 / 1024               // Gets total system memory
-    var totalmem = process.memoryUsage().heapTotal / 1024 / 1024
-
-    const pcusage = () => {
+   
+   const pcusage = () => {
     message.channel.send({embed: {
         color: usageColor,
         author: {
@@ -51,7 +56,7 @@ client.on('message', async message => {
           },
           {
             name: "**RAM Usage:**",
-            value: mem.toFixed(2) + " GB / " + totalmem.toFixed(2) + " GB"
+            value: used.toFixed(2) + " GB / " + total.toFixed(2) + " GB"
           },
         ],
         timestamp: new Date(),
