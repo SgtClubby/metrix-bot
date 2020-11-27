@@ -13,6 +13,6 @@
     "nodemon": "^2.0.4",
     "random-puppy": "^1.1.0",
     "request": "^2.88.2",
-    "systeminformation": "^4.25.1"
+    "systeminformation": "^4.30.5"
   }
 }
