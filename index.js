@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const { promises } = require('fs');
 require('events').EventEmitter.defaultMaxListeners = 50;
 global.client = new Discord.Client()
 const config = require('./config.json')
@@ -9,18 +8,31 @@ const MongoClient = require('mongodb').MongoClient
 var url = "mongodb://localhost:27017"
 global.args = ""
 global.totalserver = ""
+const guildInvites = new Map();
+
+
+
 
 client.login(config.token)
 client.setMaxListeners(100)
+
+client.on('inviteCreate', async invite => guildInvites.set(invite.guild.id, await invite.guild.fetchInvites()));
 
 client.on("ready", async () => {
     client.user.setActivity("")
     console.log("Ready...")
     console.log(`Logged in as ${client.user.tag}!`)
 
+
+    client.guilds.cache.forEach(guild => {
+        guild.fetchInvites()
+            .then(invites => guildInvites.set(guild.id, invites))
+            .catch(err => console.log(err));
+    });
+
     MongoClient.connect(url, function(err, db) {
         var dbo = db.db("metrix")
-        var coll = dbo.collection("prefixes", function(err, collection) {})
+        var coll = dbo.collection("servers", function(err, collection) {})
         totalserver = coll.countDocuments({})
     })
 
@@ -29,6 +41,7 @@ client.on("ready", async () => {
         MongoClient.connect(url, function(err, db) {
             var dbo = db.db("metrix")
             var coll = dbo.collection("prefixes", function(err, collection) {})
+            var coll2 = dbo.collection("servers", function(err, collection) {})
             coll.findOne({
                 guild: id
             }, (err, guild) => {
@@ -39,7 +52,24 @@ client.on("ready", async () => {
                         guild: id,
                         prefix: "m!"
                     }
+                    var servers = {
+                        guild: id
+                    }
                     dbo.collection("prefixes").insertOne(serverid, function(err, res) {})
+                    db.close()
+                }
+            })
+
+            coll2.findOne({
+                guild: id
+            }, (err, guild) => {
+                if (err) console.error(err)
+
+                if (!guild) {
+                    var servers = {
+                        guild: id
+                    }
+                    dbo.collection("servers").insertOne(servers, function(err, res) {})
                     db.close()
                 }
             })
@@ -47,27 +77,75 @@ client.on("ready", async () => {
     })
 })
 
-client.on("guildCreate", async guild => {
-    await client.guilds.cache.forEach(guild=>{
-        let id = guild.id;
-        MongoClient.connect(url, function(err, db) {
-            var dbo = db.db("metrix")
-            var coll = dbo.collection("prefixes", function(err, collection) {})
-            coll.findOne({
-                guild: id
-            }, (err, guild) => {
-                if (err) console.error(err)
+client.on('guildMemberAdd', async member => {
+    const cachedInvites = guildInvites.get(member.guild.id);
+    const newInvites = await member.guild.fetchInvites();
+    guildInvites.set(member.guild.id, newInvites);
+    let usedInvite;
+    try {
+        try {
+            usedInvite = newInvites.find(inv => cachedInvites.get(inv.code).uses < inv.uses);
+        } catch (error) {
+            usedInvite.uses = 1
+        }
+        
+        const embed = new Discord.MessageEmbed()
+            .setDescription(`${member.user} is the ${member.guild.memberCount} to join.\nJoined using ${usedInvite.inviter.tag}'s invite!\nNumber of uses: ${usedInvite.uses}`)
+            .setTimestamp()
+            .setColor('#6094C6')
+            .setTitle(`${usedInvite.url}`);
+        const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === 'join-logs');
+        if(welcomeChannel) {
+            welcomeChannel.send(embed).catch(err => console.log(err));
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
+});
 
-                if (!guild) {
-                    var initserver = {
-                        guild: id,
-                        prefix: "m!"
+client.on('guildMemberRemove', async member => {
+    try {
+        const embed = new Discord.MessageEmbred()
+        .setColor('#6094C6')
+        .setTimestamp()
+        .setTitle(`User ${member.user.tag} has left!`);
+        const removeChannel = member.guild.channels.cache.find(channel => channel.name === 'join-logs');
+        if(removeChannel) {
+            removeChannel.send(embed).catch(err => console.log(err));
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+client.on("guildCreate", async guild => {
+    await client.guilds.cache.forEach(guild => {
+        setTimeout(() => {
+            MongoClient.connect(url, function(err, db) {
+                var dbo = db.db("metrix")
+                var coll = dbo.collection("prefixes", function(err, collection) {})
+                coll.findOne({
+                    guild: id
+                }, (err, guild) => {
+                    if (err) console.error(err)
+    
+                    if (!guild) {
+                        var initserver = {
+                            guild: id,
+                            prefix: "m!"
+                        }
+                        var servers = {
+                            guild: id
+                        }
+                        dbo.collection("servers").insertOne(servers, function(err, res) {})
+                        dbo.collection("prefixes").insertOne(initserver, function(err, res) {})
+                        db.close()
                     }
-                    dbo.collection("prefixes").insertOne(initserver, function(err, res) {})
-                    db.close()
-                }
+                })
             })
-        })
+        }, 250);
+        let id = guild.id;
     })
 })
 
@@ -174,6 +252,9 @@ client.on('message', async message => {
                 break
             case "prefix":
                 break
+            case "rules":
+                rules.rules()
+                break
             case "membercount":
                 message.reply(`Total members: ${message.guild.memberCount}`);
                 break
@@ -189,6 +270,9 @@ client.on('message', async message => {
                 break
             case "osu":
                 getosuuser.osu()
+                break
+            case "phases":
+                phases.phases()
                 break
             case "speedtest":
                 if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
@@ -222,6 +306,10 @@ client.on('message', async message => {
 
             case "ripple":
                 getrippleuser.ripple()
+                break
+            case "repeat":
+                if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
+                repeat.repeat()
                 break
             case "yemen":
                 console.log(process.env.JWTTOKEN)
@@ -264,6 +352,16 @@ client.on('message', async message => {
                 break
             case "api":
                 api.api()
+                break
+            case "ban":
+                if (message.author.id != config.owner) return message.reply(`you do not have permission to perform this command!`)
+                    if (message.mentions.members.first()) {
+                        try {
+                            message.mentions.members.first().ban();
+                        } catch {
+                            message.channel.send("I do not have permissions to ban" + msg.members.mentions.first());
+                        }
+                    }
                 break
             case "rank":
                 if (message.channel.type === 'dm') {
@@ -375,7 +473,6 @@ client.on('message', async message => {
             if (err) throw err
             if (!res) return
             if (res.user_id === client.user.id) return
-            if (message.author.id === 485804292947574784) return console.log("You're gay!")
             var curlvl = res.level
             var curexp = res.exp
             var user = res.name
