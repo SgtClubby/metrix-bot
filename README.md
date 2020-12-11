@@ -1,7 +1,7 @@
 # Metrix
 
 ## How can I add Metrix to my server?
-First and foremost, Metrix is sort of private. Additionally, Metrix does not support self-hosting without alot of setup, so running a copy yourself is not recommended. \n
+First and foremost, Metrix is sort of private. Additionally, Metrix does not support self-hosting without alot of setup, so running a copy yourself is not recommended.  
 If you believe that Metrix is a bot that would fulfill your server's needs, you may invite the bot [here][metrix-invite].
 
 ## About this repository
